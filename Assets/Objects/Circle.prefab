@@ -57,6 +57,7 @@ MonoBehaviour:
   Back: {fileID: 212883330347435912}
   Appr: {fileID: 0}
   numberText: {fileID: 4067186326360703109}
+  hitWindowDuration: 300
 --- !u!65 &65712764148315052
 BoxCollider:
   m_ObjectHideFlags: 0

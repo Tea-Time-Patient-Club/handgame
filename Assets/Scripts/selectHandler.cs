@@ -1,92 +1,93 @@
+using System;
 using System.Collections.Generic;
+using System.IO;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class selectGameHandler : MonoBehaviour
 {
-    // 기존 변수
+    // 기존의 GameDataList와 SongGameData 정의를 제거합니다.
+    // 대신 전역으로 정의된 GameData와 GameDataList를 사용합니다.
+
+    // 기존 변수들
     public GameObject handSelectPanel;
     public GameObject songSelectPanel;
 
     public Button rightHandButton;
     public Button leftHandButton;
 
-    // 추가된 변수
     public GameObject songPrefab;
     public Transform contentPanel;
 
-    // 새로운 변수 추가
     public Image selectedSongImage;
     public Image selectedLevelImage;
     public TextMeshProUGUI selectedSongNameText;
-    public TextMeshProUGUI selectedLevelText;
     public TextMeshProUGUI selectedLevelAdviceText;
     public TextMeshProUGUI selectedSongCreaterText;
 
     private List<SongDataEntry> songList;
-    public Scrollbar slider; // 슬라이더를 연결할 변수
+    public Scrollbar slider;
+
+    public Button recommendationButton;
+    public Button difficultyAdjustmentButton;
+    private float newHitwindow = 0;
+
+    private const string DATA_FILE_NAME = "GameData/AllGameData";
 
     private void Start()
     {
-        // 초기 상태 설정
         handSelectPanel.SetActive(true);
         songSelectPanel.SetActive(false);
 
-        // 버튼 클릭 이벤트 설정
         rightHandButton.onClick.AddListener(() => OnHandSelected("Right"));
         leftHandButton.onClick.AddListener(() => OnHandSelected("Left"));
 
-        // 노래 데이터를 초기화합니다.
-        InitializeSongData();
-        
+        recommendationButton.onClick.AddListener(OnRecommendationButtonClicked);
+
+        songList = SongData.GetSongList();
+
         if (slider != null)
         {
             slider.onValueChanged.AddListener(OnSliderValueChanged);
         }
+
+        difficultyAdjustmentButton.onClick.AddListener(OnDifficultyAdjustmentButtonClicked);
     }
 
     void OnSliderValueChanged(float value)
     {
-        if(value < 0.3)
+        if (value < 0.3)
         {
             selectedLevelImage.color = Color.Lerp(Color.red, Color.yellow, 0.5f);
-            selectedLevelText.text = "E";
             selectedLevelAdviceText.text = "It's easy to select the level.";
             selectedLevelAdviceText.color = Color.Lerp(Color.red, Color.yellow, 0.5f);
-
         }
-        else if(value < 0.6)
+        else if (value < 0.6)
         {
             selectedLevelImage.color = Color.Lerp(Color.yellow, Color.green, 0.5f);
-            selectedLevelText.text = "M";
             selectedLevelAdviceText.text = "You have selected a medium difficulty.";
             selectedLevelAdviceText.color = Color.Lerp(Color.yellow, Color.green, 0.5f);
         }
         else
         {
             selectedLevelImage.color = Color.red;
-            selectedLevelText.text = "H";
             selectedLevelAdviceText.text = "You have selected a high difficulty.";
             selectedLevelAdviceText.color = Color.red;
         }
-        Debug.Log($"{value}");
-        GlobalHandler.Level = (int)(value*10);
-        Debug.Log($"{GlobalHandler.Level}");
+
+        GlobalHandler.Level = (int)(value * 10);
+        SetDifficultyValues(GlobalHandler.Level);
+
     }
 
     private void OnHandSelected(string hand)
     {
-        // 선택한 손을 GlobalHandler에 저장
         if (GlobalHandler.Instance != null)
         {
             GlobalHandler.Instance.SetSelectedHand(hand);
-
-            // 패널 상태 변경
             handSelectPanel.SetActive(false);
             songSelectPanel.SetActive(true);
-
-            // 노래 리스트를 Scroll View에 추가
             PopulateSongList();
         }
         else
@@ -100,9 +101,8 @@ public class selectGameHandler : MonoBehaviour
         foreach (SongDataEntry songData in songList)
         {
             GameObject songObject = Instantiate(songPrefab, contentPanel);
-
-            // 모든 자식 오브젝트에서 SongItem 컴포넌트를 검색
             SongItem songItem = songObject.GetComponentInChildren<SongItem>();
+
             if (songItem == null)
             {
                 Debug.LogError("Failed to get SongItem component from instantiated prefab.");
@@ -118,17 +118,11 @@ public class selectGameHandler : MonoBehaviour
             }
 
             songItem.Setup(songImage, songData.title, songData.creater);
-            songItem.button.onClick.AddListener(() => OnSongItemSelected(songData.title, songImage, songData.file,songData.creater));
+            songItem.button.onClick.AddListener(() => OnSongItemSelected(songData.title, songImage, songData.file, songData.creater, songData.active, songData.genre));
         }
     }
 
-    private string GetCreatorFromFile(string file)
-    {
-        string[] parts = file.Split('-');
-        return parts.Length > 1 ? parts[0].Trim() : "";
-    }
-
-    private void OnSongItemSelected(string songName, Sprite songImage, string songFile, string songCreater)
+    private void OnSongItemSelected(string songName, Sprite songImage, string songFile, string songCreater, int active, string genre)
     {
         if (selectedSongNameText != null)
         {
@@ -145,42 +139,170 @@ public class selectGameHandler : MonoBehaviour
             selectedSongCreaterText.text = songCreater;
         }
 
-        // 선택한 곡의 파일명을 GlobalHandler에 저장
         if (GlobalHandler.Instance != null)
         {
             GlobalHandler.Instance.SetSelectedSongFile(songFile);
+            GlobalHandler.active = active;
+            GlobalHandler.genre = genre;
         }
     }
 
-    [System.Serializable]
-    public class SongDataEntry
+    private void OnRecommendationButtonClicked()
     {
-        public string title;
-        public string file;
-        internal string creater;
-    }
-    private void InitializeSongData()
-    {
-        songList = new List<SongDataEntry>
+        string lastPlayedGenre = GetLastPlayedGenre();
+        Debug.Log($"Last Played Genre: {lastPlayedGenre}");
+
+        List<SongDataEntry> recommendedSongs;
+
+        if (string.IsNullOrEmpty(lastPlayedGenre))
         {
-            new SongDataEntry
+            Debug.Log("No last played genre found. Recommending all songs.");
+            recommendedSongs = new List<SongDataEntry>(songList);
+        }
+        else
+        {
+            recommendedSongs = songList.FindAll(song =>
             {
-                title = "Sample",
-                file = "Sample",
-                creater = "Kevin"
-            },
-            new SongDataEntry
+                bool isMatch = string.Equals(lastPlayedGenre, song.genre, StringComparison.OrdinalIgnoreCase);
+                Debug.Log($"Song: {song.title}, Genre: {song.genre}, Matches last played genre: {isMatch}");
+                return isMatch;
+            });
+
+            Debug.Log($"Recommended songs based on last played genre: {recommendedSongs.Count}");
+
+            if (recommendedSongs.Count == 0)
             {
-                title = "Picnic Party",
-                file = "Picnic Party",
-                creater = "SunoAI"
-            },
-            new SongDataEntry
+                Debug.Log("No songs match the last played genre. Recommending all songs.");
+                recommendedSongs = new List<SongDataEntry>(songList);
+            }
+        }
+
+        UpdateSongList(recommendedSongs);
+        Debug.Log($"Total recommended songs displayed: {recommendedSongs.Count}");
+    }
+
+    private string GetLastPlayedGenre()
+    {
+        GameDataList gameDataList = DataManager.LoadAllGameData();
+
+        if (gameDataList != null && gameDataList.Games != null && gameDataList.Games.Count > 0)
+        {
+            GameData lastGame = gameDataList.Games[gameDataList.Games.Count - 1];
+            return lastGame.Genre;
+        }
+
+        return string.Empty;
+    }
+
+    private void UpdateSongList(List<SongDataEntry> songs)
+    {
+        foreach (Transform child in contentPanel)
+        {
+            Destroy(child.gameObject);
+        }
+
+        foreach (SongDataEntry songData in songs)
+        {
+            GameObject songObject = Instantiate(songPrefab, contentPanel);
+            SongItem songItem = songObject.GetComponentInChildren<SongItem>();
+
+            if (songItem == null)
             {
-                title = "Warm Up Groove",
-                file = "Warm Up Groove",
-                creater = "Kevin MacLeod"
-            },
-        };
+                Debug.LogError("Failed to get SongItem component from instantiated prefab.");
+                continue;
+            }
+
+            string imagePath = $"{songData.file}/Image";
+            Sprite songImage = Resources.Load<Sprite>(imagePath);
+
+            if (songImage == null)
+            {
+                Debug.LogWarning($"Failed to load image at path: {imagePath}");
+            }
+
+            songItem.Setup(songImage, songData.title, songData.creater);
+            songItem.button.onClick.AddListener(() => OnSongItemSelected(songData.title, songImage, songData.file, songData.creater, songData.active, songData.genre));
+
+            Debug.Log($"Added song to list: {songData.title}, Genre: {songData.genre}");
+        }
+    }
+
+    private float GetSuccessRate()
+    {
+        GameDataList gameDataList = DataManager.LoadAllGameData();
+
+        if (gameDataList != null && gameDataList.Games != null && gameDataList.Games.Count > 0)
+        {
+            GameData lastGame = gameDataList.Games[gameDataList.Games.Count - 1];
+            Debug.Log($"{lastGame.alpha}");
+            GlobalHandler.alpha = (lastGame.alpha > 0) ? -1 : lastGame.alpha;
+            Debug.Log($"{GlobalHandler.alpha}");
+            if (lastGame.TotalNotes > 0)
+            {
+                float successRate = (float)lastGame.SuccessfulHits / lastGame.TotalNotes;
+                GlobalHandler.levelSystemX = successRate;
+                return successRate;
+            }
+        }
+        return 0f;
+    }
+
+    // 난이도 추천 시스템
+    public static class DifficultyAdjustment
+    {
+        public static float GetDifficultyLevel(float successRate, float alpha)
+        {
+            if (9.0f <= successRate || successRate <= 0.7f)
+            {
+                return successRate * alpha;
+            }
+            return 0;
+        }
+    }
+
+    private void OnDifficultyAdjustmentButtonClicked()
+    {
+        float successRate = GetSuccessRate();
+        newHitwindow = DifficultyAdjustment.GetDifficultyLevel(successRate, GlobalHandler.alpha);
+        slider.value = Mathf.Lerp(0.1f, 1.0f, Mathf.InverseLerp(0f, -1f, newHitwindow));
+        GlobalHandler.Level = (int)slider.value*10;
+        SetDifficultyValues(GlobalHandler.Level, newHitwindow);
+    }
+
+    private void SetDifficultyValues(float level, float newHitWindow = 0f)
+    {
+        float movementTime; // 4cm 이동하는 데 걸리는 시간 (초)
+        float movesize = 40;
+
+        if (level <= 3)
+        {
+            movementTime = movesize / 7.3f; // 약 5.48초
+        }
+        else if (level <= 6)
+        {
+            movementTime = movesize / 5.5f; // 약 7.27초
+        }
+        else // level <= 10
+        {
+            movementTime = movesize / 4.4f; // 약 9.09초
+        }
+
+        // ApprRate 계산: 움직임 시간을 기준으로 설정
+        // 예: 가장 느린 속도(level <= 3)를 기준으로 1200으로 설정
+        GlobalHandler.ApprRate = (int)(1200 * (5.48f / movementTime));
+
+        // HitWindow 계산 또는 설정
+        if (newHitWindow != 0)
+        {
+            // 새로운 HitWindow 값이 제공된 경우 이를 사용
+            GlobalHandler.HitWindow = 1.0f + newHitWindow;
+            GlobalHandler.levelSystemY = GlobalHandler.HitWindow;
+            Debug.Log($"{GlobalHandler.HitWindow}");
+        }
+        else
+        {
+            // 기존 방식대로 HitWindow 계산
+            GlobalHandler.HitWindow = Mathf.Lerp(1.0f, 0.3f, (9.09f - movementTime) / (9.09f - 5.48f));
+        }
     }
 }

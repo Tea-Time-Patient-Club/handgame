@@ -56,11 +56,13 @@ public class UniqueClassName : MonoBehaviour
       SceneManager.LoadScene("Main");
       Debug.Log("Main");
    }
+
    public void EndGame()
    {
       SceneManager.LoadScene("Main");
       Debug.Log("Main");
    }
+   
    public void MainPage()
    {
       SceneManager.LoadScene("Start");

@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+
 public class CameraCanvasSetup : MonoBehaviour
 {
    //버튼 클릭시 씬 이동

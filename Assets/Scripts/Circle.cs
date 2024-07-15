@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
@@ -23,6 +22,7 @@ public class Circle : MonoBehaviour
     private bool GotIt = false;
 
     public TextMeshPro numberText; // TextMeshPro 컴포넌트 참조
+    private int lastParameter;
 
     private void Awake()
     {
@@ -50,6 +50,7 @@ public class Circle : MonoBehaviour
         MainColor = Appr.color;
         MainColor1 = Fore.color;
         MainColor2 = Back.color;
+
 
         // TextMeshPro 컴포넌트에 숫자 설정
         if (numberText != null)
@@ -134,7 +135,7 @@ public class Circle : MonoBehaviour
     }
 
     // Check if circle wasn't clicked
-    private IEnumerator Checker()
+    protected IEnumerator Checker() // 접근 제어자를 protected로 변경
     {
         while (true)
         {
