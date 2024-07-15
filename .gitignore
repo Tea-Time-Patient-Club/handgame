@@ -3,4 +3,7 @@
 /Assets/Plugins
 /Assets/Skin
 /Assets/Shatalmic*
-/Assets/Resources/**/?eatmap.txt
+/Assets/Resources/**/?eatmap.txt*
+/Assets/Resources/**/audio.mp3*
+/Assets/Resources/**/BG.jpg*
+/Assets/Resources/**/image.png*
