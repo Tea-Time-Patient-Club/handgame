@@ -13,9 +13,9 @@ public class GlobalHandler : MonoBehaviour
     public static int MaxCombo { get; set; }
     public static int[] HitCounts { get; set; }
 
-    public static int ApprRate = 0;
-    public static float HitWindow = 0;
-    public static int Level = 0;
+    public static int ApprRate = 1000;
+    public static float HitWindow = 10f;
+    public static int Level = 1;
     public static int ClickedCount = 0;
     public static int ClickedObject = 0;
     public static int ObjCount = 0;
@@ -32,7 +32,7 @@ public class GlobalHandler : MonoBehaviour
     // 새로 추가된 속성들
     public static float ApproachCircleStartScale = 2.0f;
     public static float ApproachCircleEndScale = 0.9f;
-    public static float HitRadius = 2f;
+    public static float HitRadius = 100f;
     public static float FallSpeed = 2f;
     public static float ExpandSpeed = 2f;
     public static float OffScreenPosition = -101f;

@@ -8,6 +8,8 @@ public class Circle : MonoBehaviour
     private float PosX = 0;
     private float PosY = 0;
     private float PosZ = 0;
+    private int number;
+
     [HideInInspector]
     public int PosA = 0;
 
@@ -50,7 +52,7 @@ public class Circle : MonoBehaviour
         MainColor = Appr.color;
         MainColor1 = Fore.color;
         MainColor2 = Back.color;
-
+        this.number = lastParameter;
 
         // TextMeshPro 컴포넌트에 숫자 설정
         if (numberText != null)
@@ -116,10 +118,10 @@ public class Circle : MonoBehaviour
         {
             RemoveNow = true;
             this.enabled = true;
+            StartCoroutine(RemoveCircleAfterDelay(GlobalHandler.HitWindow)); // 0.5초 후 제거
         }
     }
 
-    // If circle was clicked
     public bool Got()
     {
         if (!RemoveNow)
@@ -129,9 +131,17 @@ public class Circle : MonoBehaviour
             GameHandler.pSounds.PlayOneShot(GameHandler.pHitSound);
             RemoveNow = false;
             this.enabled = true;
+            StartCoroutine(RemoveCircleAfterDelay(GlobalHandler.HitWindow)); // 0.5초 후 제거
             return true;
         }
         return false;
+    }
+
+    private IEnumerator RemoveCircleAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        gameObject.transform.position = new Vector2(-101, -101);
+        this.enabled = false;
     }
 
     // Check if circle wasn't clicked
@@ -149,7 +159,6 @@ public class Circle : MonoBehaviour
             yield return null;
         }
     }
-
     // Main Update
     private void Update()
     {
@@ -194,10 +203,13 @@ public class Circle : MonoBehaviour
         {
             MainColor1.a -= 10f * Time.deltaTime;
             MainColor2.a -= 10f * Time.deltaTime;
+
             MainFore.transform.localScale += new Vector3(2, 2, 0) * Time.deltaTime;
             MainBack.transform.localScale += new Vector3(2, 2, 0) * Time.deltaTime;
+
             Fore.color = MainColor1;
             Back.color = MainColor2;
+
             if (MainColor1.a <= 0f)
             {
                 gameObject.transform.position = new Vector2(-101, -101);

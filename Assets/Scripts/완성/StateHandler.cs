@@ -20,6 +20,7 @@ public class StateHandler : MonoBehaviour
     public GameObject monthController;
 
     public Button backButton;
+    public Button panelBackButton;
     public Button rightHandButton;
     public Button leftHandButton;
     public Button monthButton;
@@ -47,6 +48,7 @@ public class StateHandler : MonoBehaviour
         weekPanel.SetActive(false);
 
         backButton.onClick.AddListener(OnBackButtonSelected);
+        panelBackButton.onClick.AddListener(OnPanelBackButtonSelected);
         rightHandButton.onClick.AddListener(() => OnHandSelected("Right"));
         leftHandButton.onClick.AddListener(() => OnHandSelected("Left"));
         monthButton.onClick.AddListener(OnMonthSelected);
@@ -55,17 +57,13 @@ public class StateHandler : MonoBehaviour
 
     void OnBackButtonSelected()
     {
-        Debug.Log("Back Clicked");
+        SceneManager.LoadScene("Start");
+    }
 
-        if(panel.activeSelf)
-        {
-            Debug.Log("Trying to change panel");
-            panel.SetActive(false);
-            handPanel.SetActive(true);
-        } else
-        {
-            SceneManager.LoadScene("Start");
-        }
+    void OnPanelBackButtonSelected()
+    {
+        panel.SetActive(false);
+        handPanel.SetActive(true);
     }
 
     void OnHandSelected(string hand)

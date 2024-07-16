@@ -80,7 +80,7 @@ public class EndGameHandler : MonoBehaviour
                 Active = GlobalHandler.active,
                 Genre = GlobalHandler.genre,
                 TotalNotes = GlobalHandler.TotalNotes,
-                alpha = GlobalHandler.alpha * (GlobalHandler.SuccessfulHits / GlobalHandler.TotalNotes),
+                alpha = GlobalHandler.alpha,
                 LevelSystemX = GlobalHandler.levelSystemX,
                 LevelSystemY = GlobalHandler.levelSystemY
              };

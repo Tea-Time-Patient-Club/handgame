@@ -1,6 +1,7 @@
 /Library
 /Temp
 /Assets/Plugins
+/Assets/image*
 /Assets/Skin
 /Assets/Shatalmic*
 /Assets/Resources/**/?eatmap.txt*

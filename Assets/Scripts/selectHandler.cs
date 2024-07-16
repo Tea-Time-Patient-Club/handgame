@@ -235,7 +235,8 @@ public class selectGameHandler : MonoBehaviour
         {
             GameData lastGame = gameDataList.Games[gameDataList.Games.Count - 1];
             Debug.Log($"{lastGame.alpha}");
-            GlobalHandler.alpha = (lastGame.alpha > 0) ? -1 : lastGame.alpha;
+            GlobalHandler.alpha = (lastGame.alpha >= 0) ? -1 : lastGame.alpha;
+            GlobalHandler.Level = lastGame.Level;
             Debug.Log($"{GlobalHandler.alpha}");
             if (lastGame.TotalNotes > 0)
             {
@@ -252,20 +253,22 @@ public class selectGameHandler : MonoBehaviour
     {
         public static float GetDifficultyLevel(float successRate, float alpha)
         {
-            if (9.0f <= successRate || successRate <= 0.7f)
+            if (0.9f <= successRate || successRate <= 0.7f)
             {
+                GlobalHandler.alpha = successRate * alpha;
                 return successRate * alpha;
             }
-            return 0;
+            return alpha;
         }
     }
 
     private void OnDifficultyAdjustmentButtonClicked()
     {
         float successRate = GetSuccessRate();
-        newHitwindow = DifficultyAdjustment.GetDifficultyLevel(successRate, GlobalHandler.alpha);
-        slider.value = Mathf.Lerp(0.1f, 1.0f, Mathf.InverseLerp(0f, -1f, newHitwindow));
+        newHitwindow = DifficultyAdjustment.GetDifficultyLevel(successRate, GlobalHandler.alpha) * 100;
+        Debug.Log($"{successRate}");
         GlobalHandler.Level = (int)slider.value*10;
+        Debug.Log($"{newHitwindow}");
         SetDifficultyValues(GlobalHandler.Level, newHitwindow);
     }
 
@@ -273,6 +276,8 @@ public class selectGameHandler : MonoBehaviour
     {
         float movementTime; // 4cm 이동하는 데 걸리는 시간 (초)
         float movesize = 40;
+
+        Debug.Log($"{level}");
 
         if (level <= 3)
         {
@@ -295,14 +300,19 @@ public class selectGameHandler : MonoBehaviour
         if (newHitWindow != 0)
         {
             // 새로운 HitWindow 값이 제공된 경우 이를 사용
-            GlobalHandler.HitWindow = 1.0f + newHitWindow;
-            GlobalHandler.levelSystemY = GlobalHandler.HitWindow;
+            GlobalHandler.HitWindow = 100.0f + newHitWindow;
+            GlobalHandler.levelSystemY = GlobalHandler.HitWindow; 
+            slider.value = Mathf.Lerp(0.0f, 1.0f, Mathf.InverseLerp(0f, 100f, GlobalHandler.HitWindow));
             Debug.Log($"{GlobalHandler.HitWindow}");
         }
         else
         {
             // 기존 방식대로 HitWindow 계산
-            GlobalHandler.HitWindow = Mathf.Lerp(1.0f, 0.3f, (9.09f - movementTime) / (9.09f - 5.48f));
+            GlobalHandler.HitWindow = Mathf.Lerp(10f, 100f, (9.09f - movementTime) / (9.09f - 5.48f));
+            Debug.Log($"{GlobalHandler.HitWindow}");
         }
+        Debug.Log($"{slider.value}");
+        Debug.Log($"{GlobalHandler.HitWindow}");
+        Debug.Log($"{GlobalHandler.ApprRate}");
     }
 }
