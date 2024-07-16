@@ -59,21 +59,15 @@ public class selectGameHandler : MonoBehaviour
     {
         if (value < 0.3)
         {
-            selectedLevelImage.color = Color.Lerp(Color.red, Color.yellow, 0.5f);
-            selectedLevelAdviceText.text = "It's easy to select the level.";
-            selectedLevelAdviceText.color = Color.Lerp(Color.red, Color.yellow, 0.5f);
+            selectedLevelAdviceText.text = "Your starting point to rehabilitation.";
         }
         else if (value < 0.6)
         {
-            selectedLevelImage.color = Color.Lerp(Color.yellow, Color.green, 0.5f);
-            selectedLevelAdviceText.text = "You have selected a medium difficulty.";
-            selectedLevelAdviceText.color = Color.Lerp(Color.yellow, Color.green, 0.5f);
+            selectedLevelAdviceText.text = "Too easy? Try this level.";
         }
         else
         {
-            selectedLevelImage.color = Color.red;
-            selectedLevelAdviceText.text = "You have selected a high difficulty.";
-            selectedLevelAdviceText.color = Color.red;
+            selectedLevelAdviceText.text = "May similar to common rhythm games.";
         }
 
         GlobalHandler.Level = (int)(value * 10);
