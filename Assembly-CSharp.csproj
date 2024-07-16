@@ -63,8 +63,8 @@
     <Compile Include="Assets\Shatalmic\Example\MultipleLevels\FoundDeviceListScript.cs" />
     <Compile Include="Assets\Scripts\완성\EndGameHandler.cs" />
     <Compile Include="Assets\Scripts\selectHandler.cs" />
-    <Compile Include="Assets\Scripts\완성\Slider.cs" />
     <Compile Include="Assets\Scripts\SongData.cs" />
+    <Compile Include="Assets\Scripts\완성\Slider.cs" />
     <Compile Include="Assets\Scripts\Arduino.cs" />
     <Compile Include="Assets\Scripts\SceneControll.cs" />
     <Compile Include="Assets\Shatalmic\Example\ScannerTest\ScannerTestScript.cs" />

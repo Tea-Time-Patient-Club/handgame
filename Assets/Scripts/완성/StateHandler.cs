@@ -4,6 +4,7 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class StateHandler : MonoBehaviour
 {
@@ -15,7 +16,10 @@ public class StateHandler : MonoBehaviour
     public GameObject weekPanel;
     public GameObject HandTextWeek;
     public GameObject HandTextMonth;
+    public GameObject weekController;
+    public GameObject monthController;
 
+    public Button backButton;
     public Button rightHandButton;
     public Button leftHandButton;
     public Button monthButton;
@@ -23,7 +27,6 @@ public class StateHandler : MonoBehaviour
 
     public TextMeshProUGUI WeekFeedBack;
     public TextMeshProUGUI MonthFeedBack;
-    public TextMeshProUGUI Controller;
 
     public GameObject fingerSliderPrefab;
     public GameObject fiveFingerSliderPrefab;
@@ -43,10 +46,26 @@ public class StateHandler : MonoBehaviour
         monthPanel.SetActive(false);
         weekPanel.SetActive(false);
 
+        backButton.onClick.AddListener(OnBackButtonSelected);
         rightHandButton.onClick.AddListener(() => OnHandSelected("Right"));
         leftHandButton.onClick.AddListener(() => OnHandSelected("Left"));
         monthButton.onClick.AddListener(OnMonthSelected);
         weekButton.onClick.AddListener(OnWeekSelected);
+    }
+
+    void OnBackButtonSelected()
+    {
+        Debug.Log("Back Clicked");
+
+        if(panel.activeSelf)
+        {
+            Debug.Log("Trying to change panel");
+            panel.SetActive(false);
+            handPanel.SetActive(true);
+        } else
+        {
+            SceneManager.LoadScene("Start");
+        }
     }
 
     void OnHandSelected(string hand)
@@ -55,8 +74,9 @@ public class StateHandler : MonoBehaviour
         // HandTextMonth.text = hand;
         selectedHand = hand;
         handPanel.SetActive(false);
-        panel.SetActive(true);
         LoadPlayData();
+        panel.SetActive(true);
+        weekPanel.SetActive(true);
     }
 
     void OnMonthSelected()
