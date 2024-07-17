@@ -411,12 +411,14 @@ MonoBehaviour:
   MainMusic: {fileID: 8300000, guid: a3a2d96e699be5347854ffc6ef49aadf, type: 3}
   BackgroundImage: {fileID: 0}
   CirclePrefab: {fileID: 1048798711757196, guid: 0013f3c552b5a32428fe42d1e1aac4b5, type: 3}
-  ArrowPrefab: {fileID: 5690122184050456336, guid: a59438bbc9ba2e64e862c2712a6b6008, type: 3}
   BallPrefab: {fileID: 6502455332133602093, guid: 220356f1b8ec2484f9b2eb2423f75a9c, type: 3}
   Background: {fileID: 263986309}
+  SliderLinePrefab: {fileID: 0}
   HitSound: {fileID: 8300000, guid: 59d4dc4b6f6d5084e9565dd47e737241, type: 3}
   hitText: {fileID: 157212805}
   missText: {fileID: 2041417015}
+  sliderBodySprite: {fileID: 0}
+  sliderWidth: 1.5
   cursorTrailPrefab: {fileID: 7855987797089434523, guid: a7cd313cb3741794e9bbee2c1d5359f7, type: 3}
 --- !u!4 &882044838
 Transform:
@@ -787,7 +789,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: GOOD
+  m_text: CHEER UP!
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 646c3db0b893795e28b6c37079015d8d, type: 2}
   m_sharedMaterial: {fileID: 5965442755624461439, guid: 646c3db0b893795e28b6c37079015d8d, type: 2}

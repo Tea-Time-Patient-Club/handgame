@@ -26,6 +26,11 @@ public class StateHandler : MonoBehaviour
     public Button monthButton;
     public Button weekButton;
 
+    public Image monthButtonImage;
+    public Image weekButtonImage;
+    public Image monthHandImage;
+    public Image weekHandImage;
+
     public TextMeshProUGUI WeekFeedBack;
     public TextMeshProUGUI MonthFeedBack;
 
@@ -34,6 +39,12 @@ public class StateHandler : MonoBehaviour
     public Transform weekContentPanel;
     public Transform monthContentPanel;
     public Transform dataContentPanel;
+
+    public Sprite rightHand;
+    public Sprite leftHand;
+
+    public Sprite touchScreen;
+    public Sprite handController;
 
     private List<GameData> weekPlayData = new List<GameData>();
     private List<GameData> monthPlayData = new List<GameData>();
@@ -68,19 +79,32 @@ public class StateHandler : MonoBehaviour
 
     void OnHandSelected(string hand)
     {
-        // HandTextWeek.text = hand;
-        // HandTextMonth.text = hand;
         selectedHand = hand;
-        handPanel.SetActive(false);
+        if (hand == "Right")
+        {
+            monthHandImage.sprite = rightHand;
+            weekHandImage.sprite = rightHand;
+        } else
+        {
+            monthHandImage.sprite = leftHand;
+            weekHandImage.sprite = leftHand;
+        }
+
         LoadPlayData();
+
+        handPanel.SetActive(false);
         panel.SetActive(true);
         weekPanel.SetActive(true);
+        weekButtonImage.color = new Color32(110, 142, 114, 255);
+        monthButtonImage.color = new Color32(255, 255, 255, 255);
     }
 
     void OnMonthSelected()
     {
         monthPanel.SetActive(true);
         weekPanel.SetActive(false);
+        monthButtonImage.color = new Color32(110, 142, 114, 255);
+        weekButtonImage.color = new Color32(255, 255, 255, 255);
 
         DisplayMonthlyData(monthPlayData, monthContentPanel);
     }
@@ -89,6 +113,8 @@ public class StateHandler : MonoBehaviour
     {
         weekPanel.SetActive(true);
         monthPanel.SetActive(false);
+        monthButtonImage.color = new Color32(255, 255, 255, 255);
+        weekButtonImage.color = new Color32(110, 142, 114, 255);
 
         DisplayPlayData(weekPlayData, weekContentPanel, "Week");
     }

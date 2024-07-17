@@ -3,20 +3,8 @@
   "WorkspaceRootPath": "C:\\Users\\lego3\\My project\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\lego3\\My project\\Assets\\Scripts\\selectHandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Scripts\\selectHandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\lego3\\My project\\Assets\\Scripts\\SceneControll.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Scripts\\SceneControll.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\lego3\\My project\\Assets\\Scripts\\\uC644\uC131\\StateHandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Scripts\\\uC644\uC131\\StateHandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\lego3\\My project\\Assets\\Scripts\\SafeArea.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Scripts\\SafeArea.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -31,51 +19,12 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "selectHandler.cs",
-              "DocumentMoniker": "C:\\Users\\lego3\\My project\\Assets\\Scripts\\selectHandler.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\selectHandler.cs",
-              "ToolTip": "C:\\Users\\lego3\\My project\\Assets\\Scripts\\selectHandler.cs",
-              "RelativeToolTip": "Assets\\Scripts\\selectHandler.cs",
-              "ViewState": "AQIAAC0AAAAAMzMzM7MiwEYAAAAJAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-16T13:43:55.349Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "SafeArea.cs",
-              "DocumentMoniker": "C:\\Users\\lego3\\My project\\Assets\\Scripts\\SafeArea.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\SafeArea.cs",
-              "ToolTip": "C:\\Users\\lego3\\My project\\Assets\\Scripts\\SafeArea.cs",
-              "RelativeToolTip": "Assets\\Scripts\\SafeArea.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABgAAAABAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-16T10:37:23.304Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "SceneControll.cs",
-              "DocumentMoniker": "C:\\Users\\lego3\\My project\\Assets\\Scripts\\SceneControll.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\SceneControll.cs",
-              "ToolTip": "C:\\Users\\lego3\\My project\\Assets\\Scripts\\SceneControll.cs",
-              "RelativeToolTip": "Assets\\Scripts\\SceneControll.cs",
-              "ViewState": "AQIAACEAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-16T02:12:46.241Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
               "Title": "StateHandler.cs",
               "DocumentMoniker": "C:\\Users\\lego3\\My project\\Assets\\Scripts\\\uC644\uC131\\StateHandler.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\\uC644\uC131\\StateHandler.cs",
               "ToolTip": "C:\\Users\\lego3\\My project\\Assets\\Scripts\\\uC644\uC131\\StateHandler.cs",
               "RelativeToolTip": "Assets\\Scripts\\\uC644\uC131\\StateHandler.cs",
-              "ViewState": "AQIAAAYAAAAAAAAAAAAAABcAAAAiAAAA",
+              "ViewState": "AQIAAHsAAAAAAAAAAAD4v1IAAAAWAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-07-15T12:45:30.367Z",
               "EditorCaption": ""

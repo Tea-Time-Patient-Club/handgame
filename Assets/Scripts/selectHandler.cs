@@ -31,6 +31,11 @@ public class selectGameHandler : MonoBehaviour
 
     public Button recommendationButton;
     public Button difficultyAdjustmentButton;
+
+    public Sprite difficultyEasy;
+    public Sprite difficultyNormal;
+    public Sprite difficultyHard;
+
     private float newHitwindow = 0;
 
     private const string DATA_FILE_NAME = "GameData/AllGameData";
@@ -59,14 +64,17 @@ public class selectGameHandler : MonoBehaviour
     {
         if (value < 0.3)
         {
+            selectedLevelImage.sprite = difficultyEasy;
             selectedLevelAdviceText.text = "Your starting point to rehabilitation.";
         }
         else if (value < 0.6)
         {
+            selectedLevelImage.sprite = difficultyNormal;
             selectedLevelAdviceText.text = "Too easy? Try this level.";
         }
         else
         {
+            selectedLevelImage.sprite = difficultyHard;
             selectedLevelAdviceText.text = "May similar to common rhythm games.";
         }
 
