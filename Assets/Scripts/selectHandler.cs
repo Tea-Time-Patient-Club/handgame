@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Debug = UnityEngine.Debug;
 
 public class selectGameHandler : MonoBehaviour
 {
@@ -157,6 +159,20 @@ public class selectGameHandler : MonoBehaviour
         }
     }
 
+    private void SelectSongItemByCode(string title, string artist)
+    {
+        foreach (Transform child in contentPanel)
+        {
+            SongItem song = child.gameObject.GetComponentInChildren<SongItem>();
+            
+            if (song.songNameText.text == title && song.creatorText.text == artist)
+            {
+                song.button.onClick.Invoke();
+                break;
+            }
+        }
+    }
+
     private void OnRecommendationButtonClicked()
     {
         string lastPlayedGenre = GetLastPlayedGenre();
@@ -187,7 +203,9 @@ public class selectGameHandler : MonoBehaviour
             }
         }
 
-        UpdateSongList(recommendedSongs);
+        int selectedSongIndex = UnityEngine.Random.Range(0, recommendedSongs.Count);
+
+        SelectSongItemByCode(recommendedSongs[selectedSongIndex].title, recommendedSongs[selectedSongIndex].creater);
         Debug.Log($"Total recommended songs displayed: {recommendedSongs.Count}");
     }
 
