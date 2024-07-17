@@ -33,39 +33,39 @@ public class UniqueClassName : MonoBehaviour
         }
     }
 
-    
-   //버튼 클릭시 씬 이동
-   public void StateButtonClick()
-   {
-      SceneManager.LoadScene("State");
-      Debug.Log("State");
-   }
-   public void SongSelectButtonClick()
-   {
-      SceneManager.LoadScene("select");
-      Debug.Log("select");
-   }
 
-   public void ControllButtonClick()
-   {
-      SceneManager.LoadScene("Controll");
-      Debug.Log("Controll");
-   }
-   public void PlayButtonClick()
-   {
-      SceneManager.LoadScene("Main");
-      Debug.Log("Main");
-   }
+    //버튼 클릭시 씬 이동
+    public void StateButtonClick()
+    {
+        SceneManager.LoadScene("State");
+        Debug.Log("State");
+    }
+    public void SongSelectButtonClick()
+    {
+        SceneManager.LoadScene("select");
+        Debug.Log("select");
+    }
 
-   public void EndGame()
-   {
-      SceneManager.LoadScene("Main");
-      Debug.Log("Main");
-   }
-   
-   public void MainPage()
-   {
-      SceneManager.LoadScene("Start");
-      Debug.Log("Start");
-   }
+    public void ControllButtonClick()
+    {
+        SceneManager.LoadScene("Controll");
+        Debug.Log("Controll");
+    }
+    public void PlayButtonClick()
+    {
+        SceneManager.LoadScene("Main");
+        Debug.Log("Main");
+    }
+
+    public void EndGame()
+    {
+        SceneManager.LoadScene("Main");
+        Debug.Log("Main");
+    }
+
+    public void MainPage()
+    {
+        SceneManager.LoadScene("Start");
+        Debug.Log("Start");
+    }
 }

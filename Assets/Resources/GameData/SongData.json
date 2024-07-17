@@ -1,0 +1,32 @@
+{
+  "songs": [
+    {
+      "title": "Sample",
+      "creater": "Kevin",
+      "filePath": "GameData/Sample",
+      "active": 1,
+      "genre": "Trot"
+    },
+    {
+      "title": "Picnic Party",
+      "creater": "SunoAI",
+      "filePath": "GameData/Picnic Party",
+      "active": 1,
+      "genre": "POP"
+    },
+    {
+      "title": "Warm Up Groove",
+      "creater": "Kevin MacLeod",
+      "filePath": "GameData/Warm Up Groove",
+      "active": 1,
+      "genre": "Trot"
+    },
+    {
+      "title": "Smile",
+      "creater": "SunoAI",
+      "filePath": "GameData/Smile",
+      "active": 1,
+      "genre": "POP"
+    }
+  ]
+}

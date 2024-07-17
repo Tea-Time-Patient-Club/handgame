@@ -39,26 +39,45 @@ public class EndGameHandler : MonoBehaviour
     private const string DATA_DIRECTORY_PATH = "Resources/GameData"; // Path to GameData directory
     private const string GAME_DATA_FILE = "AllGameData.json"; // Game data file name
 
+    public TextMeshProUGUI ComboText;
     public TextMeshProUGUI successText;
     public TextMeshProUGUI failText;
     public TextMeshProUGUI TotalText;
-    public TextMeshProUGUI ComboText;
+    
     public Image songImage;
     public TextMeshProUGUI songTitleText;
-    public TextMeshProUGUI selectedHandText;
+    public TextMeshProUGUI songArtistText;
+
+    public Image playToolImage;
+    public Image levelImage;
+    public Image selectedHandImage;
+
+    public Sprite toolHardwareSprite;
+    public Sprite toolTouchscreenSprite;
+    
+    public Sprite easyLevel;
+    public Sprite normalLevel;
+    public Sprite hardLevel;
+
+    public Sprite rightHand;
+    public Sprite leftHand;
+
     public TextMeshProUGUI PerformanceText;
-    public TextMeshProUGUI PlayToolText;
-    public TextMeshProUGUI LevelText;
     public Slider pointSlider;
 
     private string filePath;
-
+    
     private void Start()
     {
         pointSlider.interactable = false;
         UpdateEndGameUI();
         filePath = Path.Combine(Application.persistentDataPath, GAME_DATA_FILE);
         DataSave();
+
+        if(GlobalHandler.Instance.SelectedSongFile == "Tutorial")
+        {
+            
+        }
     }
 
     private void DataSave()
@@ -91,39 +110,6 @@ public class EndGameHandler : MonoBehaviour
         {
             Debug.LogError("GlobalHandler instance is null. Cannot save game data.");
         }
-        /*
-            // Load existing data if the file exists
-            if (File.Exists(filePath))
-            {
-                string json = File.ReadAllText(filePath);
-                gameDataList = JsonUtility.FromJson<GameDataList>(json);
-            }
-            else
-            {
-                gameDataList = new GameDataList();
-            }
-
-            // Add new game data to the list
-            gameDataList.Games.Add(gameData);
-
-            // Save JSON data
-            string updatedJson = JsonUtility.ToJson(gameDataList, true);
-            
-            try
-            {
-                File.WriteAllText(filePath, updatedJson);
-                Debug.Log($"Game data saved to {filePath}");
-            }
-            catch (System.Exception e)
-            {
-                Debug.LogError($"Failed to save game data: {e.Message}");
-            }
-        }
-        else
-        {
-            Debug.LogError("GlobalHandler instance is null. Cannot save game data.");
-        }
-        */
     }
 
     public void ControllSlider()
@@ -144,18 +130,22 @@ public class EndGameHandler : MonoBehaviour
 
         if (GlobalHandler.PlayerTool == 1)
         {
-            PlayToolText.text = "Arduino"; // 1 is Arduino
+            playToolImage.sprite = toolHardwareSprite; // 1 is Arduino
         }
         else
         {
-            PlayToolText.text = "Hand"; // 0 is Phone
+            playToolImage.sprite = toolTouchscreenSprite; // 0 is Phone
         }
 
         // Update song image and title
         string selectedSongFile = GlobalHandler.Instance?.SelectedSongFile;
+        string selectedSongTitle = GlobalHandler.Instance?.SelectedSongTitle;
+        string selectedSongArtist = GlobalHandler.Instance?.SelectedSongArtist;
+
         if (!string.IsNullOrEmpty(selectedSongFile))
         {
-            songTitleText.text = selectedSongFile;
+            songTitleText.text = selectedSongTitle;
+            songArtistText.text = selectedSongArtist;
             songImage.sprite = Resources.Load<Sprite>($"{selectedSongFile}/Image");
         }
 
@@ -163,22 +153,20 @@ public class EndGameHandler : MonoBehaviour
         if (GlobalHandler.Instance != null)
         {
             string selectedHand = GlobalHandler.Instance.SelectedHand;
-            selectedHandText.text = selectedHand.Equals("Right") ? "R" : "L";
+            selectedHandImage.sprite = selectedHand.Equals("Right") ? rightHand : leftHand;
         }
 
         switch (GlobalHandler.Level)
         {
             case 3:
-                LevelText.text = "E";
+                levelImage.sprite = easyLevel;
                 break;
             case 6:
-                LevelText.text = "M";
+                levelImage.sprite = normalLevel;
                 break;
             case 10:
-                LevelText.text = "H";
-                break;
             default:
-                LevelText.text = "E";
+                levelImage.sprite = hardLevel;
                 break;
         }
     }

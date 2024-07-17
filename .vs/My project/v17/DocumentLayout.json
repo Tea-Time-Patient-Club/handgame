@@ -3,8 +3,20 @@
   "WorkspaceRootPath": "C:\\Users\\lego3\\My project\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\lego3\\My project\\Assets\\Scripts\\\uC644\uC131\\StateHandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Scripts\\\uC644\uC131\\StateHandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{32C3BDE6-E125-3128-82C1-25D0441455A3}|Assembly-CSharp.csproj|C:\\Users\\lego3\\My project\\assets\\scripts\\\uC644\uC131\\controllhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{32C3BDE6-E125-3128-82C1-25D0441455A3}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\\uC644\uC131\\controllhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{32C3BDE6-E125-3128-82C1-25D0441455A3}|Assembly-CSharp.csproj|c:\\users\\lego3\\my project\\assets\\scripts\\selecthandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{32C3BDE6-E125-3128-82C1-25D0441455A3}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\selecthandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{32C3BDE6-E125-3128-82C1-25D0441455A3}|Assembly-CSharp.csproj|C:\\Users\\lego3\\My project\\assets\\scripts\\\uC644\uC131\\statehandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{32C3BDE6-E125-3128-82C1-25D0441455A3}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\\uC644\uC131\\statehandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{32C3BDE6-E125-3128-82C1-25D0441455A3}|Assembly-CSharp.csproj|c:\\users\\lego3\\my project\\assets\\scripts\\\uC644\uC131\\endgamehandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{32C3BDE6-E125-3128-82C1-25D0441455A3}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\\uC644\uC131\\endgamehandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -14,19 +26,58 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
+              "Title": "selectHandler.cs",
+              "DocumentMoniker": "C:\\Users\\lego3\\My project\\Assets\\Scripts\\selectHandler.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\selectHandler.cs",
+              "ToolTip": "C:\\Users\\lego3\\My project\\Assets\\Scripts\\selectHandler.cs",
+              "RelativeToolTip": "Assets\\Scripts\\selectHandler.cs",
+              "ViewState": "AQIAACIAAAAAmZmZmZkhwCMAAAApAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-17T13:20:17.247Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "EndGameHandler.cs",
+              "DocumentMoniker": "C:\\Users\\lego3\\My project\\Assets\\Scripts\\\uC644\uC131\\EndGameHandler.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\\uC644\uC131\\EndGameHandler.cs",
+              "ToolTip": "C:\\Users\\lego3\\My project\\Assets\\Scripts\\\uC644\uC131\\EndGameHandler.cs",
+              "RelativeToolTip": "Assets\\Scripts\\\uC644\uC131\\EndGameHandler.cs",
+              "ViewState": "AQIAACQAAAAAAAAAAAAYwC0AAAAEAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-17T13:12:18.11Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "StateHandler.cs",
               "DocumentMoniker": "C:\\Users\\lego3\\My project\\Assets\\Scripts\\\uC644\uC131\\StateHandler.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\\uC644\uC131\\StateHandler.cs",
               "ToolTip": "C:\\Users\\lego3\\My project\\Assets\\Scripts\\\uC644\uC131\\StateHandler.cs",
               "RelativeToolTip": "Assets\\Scripts\\\uC644\uC131\\StateHandler.cs",
-              "ViewState": "AQIAAHsAAAAAAAAAAAD4v1IAAAAWAAAA",
+              "ViewState": "AQIAACQAAAAA/f///38QwAYAAAAiAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-15T12:45:30.367Z",
+              "WhenOpened": "2024-07-17T12:05:40.346Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ControllHandler.cs",
+              "DocumentMoniker": "C:\\Users\\lego3\\My project\\Assets\\Scripts\\\uC644\uC131\\ControllHandler.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\\uC644\uC131\\ControllHandler.cs",
+              "ToolTip": "C:\\Users\\lego3\\My project\\Assets\\Scripts\\\uC644\uC131\\ControllHandler.cs",
+              "RelativeToolTip": "Assets\\Scripts\\\uC644\uC131\\ControllHandler.cs",
+              "ViewState": "AQIAAB8AAACAmZmZmVkhwCMAAAArAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-17T11:52:43.064Z",
               "EditorCaption": ""
             }
           ]

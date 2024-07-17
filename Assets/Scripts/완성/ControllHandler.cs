@@ -15,7 +15,6 @@ public class StateHandler1 : MonoBehaviour
 
     [SerializeField]
     public GameObject songSelectPanel;
-    public TextMeshProUGUI arduinoText;
     private int dataReceivedCount = 0;
 
 
@@ -31,15 +30,12 @@ public class StateHandler1 : MonoBehaviour
         if (NoButton != null) NoButton.onClick.AddListener(OffClearButtonClick);
     }
 
-    
-
     // 기존 메서드들은 그대로 유지...
-
     public void OnTutorialButtonClick()
     {
         if (GlobalHandler.Instance != null)
         {
-            GlobalHandler.Instance.SetSelectedSongFile("Tutorial");
+            GlobalHandler.Instance.SetSelectedSongFile("GameData/Tutorial", "Tutorial", "");
         }
         else
         {

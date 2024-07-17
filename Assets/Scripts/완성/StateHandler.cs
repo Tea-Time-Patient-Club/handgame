@@ -84,13 +84,12 @@ public class StateHandler : MonoBehaviour
         {
             monthHandImage.sprite = rightHand;
             weekHandImage.sprite = rightHand;
-        } else
+        }
+        else
         {
             monthHandImage.sprite = leftHand;
             weekHandImage.sprite = leftHand;
         }
-
-        LoadPlayData();
 
         handPanel.SetActive(false);
         panel.SetActive(true);

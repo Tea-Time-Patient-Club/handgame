@@ -12,7 +12,7 @@ public static class DataManager
     public static string GetDataPath(string fileName)
     {
         string dataDirectory = Path.Combine(Application.persistentDataPath, DATA_FOLDER_NAME);
-        
+
         // GameData 디렉토리가 없으면 생성
         if (!Directory.Exists(dataDirectory))
         {

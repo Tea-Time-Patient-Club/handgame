@@ -1,16 +1,11 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class selectGameHandler : MonoBehaviour
 {
-    // 기존의 GameDataList와 SongGameData 정의를 제거합니다.
-    // 대신 전역으로 정의된 GameData와 GameDataList를 사용합니다.
-
-    // 기존 변수들
     public GameObject handSelectPanel;
     public GameObject songSelectPanel;
 
@@ -26,7 +21,6 @@ public class selectGameHandler : MonoBehaviour
     public TextMeshProUGUI selectedLevelAdviceText;
     public TextMeshProUGUI selectedSongCreaterText;
 
-    private List<SongDataEntry> songList;
     public Scrollbar slider;
 
     public Button recommendationButton;
@@ -38,7 +32,8 @@ public class selectGameHandler : MonoBehaviour
 
     private float newHitwindow = 0;
 
-    private const string DATA_FILE_NAME = "GameData/AllGameData";
+    private const string DATA_FILE_NAME = "GameData/SongData"; // Resources/GameData 폴더 내에 SongData.json 파일이 있어야 합니다.
+    private List<SongDataEntry> songList;
 
     private void Start()
     {
@@ -50,7 +45,7 @@ public class selectGameHandler : MonoBehaviour
 
         recommendationButton.onClick.AddListener(OnRecommendationButtonClicked);
 
-        songList = SongData.GetSongList();
+        LoadSongData();
 
         if (slider != null)
         {
@@ -58,6 +53,20 @@ public class selectGameHandler : MonoBehaviour
         }
 
         difficultyAdjustmentButton.onClick.AddListener(OnDifficultyAdjustmentButtonClicked);
+    }
+
+    private void LoadSongData()
+    {
+        TextAsset jsonData = Resources.Load<TextAsset>(DATA_FILE_NAME);
+        if (jsonData != null)
+        {
+            SongDataList songDataList = JsonUtility.FromJson<SongDataList>(jsonData.text);
+            songList = songDataList.songs;
+        }
+        else
+        {
+            Debug.LogError($"Failed to load song data from {DATA_FILE_NAME}.json");
+        }
     }
 
     void OnSliderValueChanged(float value)
@@ -80,7 +89,6 @@ public class selectGameHandler : MonoBehaviour
 
         GlobalHandler.Level = (int)(value * 10);
         SetDifficultyValues(GlobalHandler.Level);
-
     }
 
     private void OnHandSelected(string hand)
@@ -111,7 +119,7 @@ public class selectGameHandler : MonoBehaviour
                 continue;
             }
 
-            string imagePath = $"{songData.file}/Image";
+            string imagePath = $"{songData.filePath}/Image";
             Sprite songImage = Resources.Load<Sprite>(imagePath);
 
             if (songImage == null)
@@ -120,11 +128,11 @@ public class selectGameHandler : MonoBehaviour
             }
 
             songItem.Setup(songImage, songData.title, songData.creater);
-            songItem.button.onClick.AddListener(() => OnSongItemSelected(songData.title, songImage, songData.file, songData.creater, songData.active, songData.genre));
+            songItem.button.onClick.AddListener(() => OnSongItemSelected(songData.title, songImage, songData.filePath, songData.creater, songData.active, songData.genre));
         }
     }
 
-    private void OnSongItemSelected(string songName, Sprite songImage, string songFile, string songCreater, int active, string genre)
+    private void OnSongItemSelected(string songName, Sprite songImage, string songFilePath, string songCreater, int active, string genre)
     {
         if (selectedSongNameText != null)
         {
@@ -143,7 +151,7 @@ public class selectGameHandler : MonoBehaviour
 
         if (GlobalHandler.Instance != null)
         {
-            GlobalHandler.Instance.SetSelectedSongFile(songFile);
+            GlobalHandler.Instance.SetSelectedSongFile(songFilePath, songName, songCreater);
             GlobalHandler.active = active;
             GlobalHandler.genre = genre;
         }
@@ -214,7 +222,7 @@ public class selectGameHandler : MonoBehaviour
                 continue;
             }
 
-            string imagePath = $"{songData.file}/Image";
+            string imagePath = $"{songData.filePath}/Image";
             Sprite songImage = Resources.Load<Sprite>(imagePath);
 
             if (songImage == null)
@@ -223,7 +231,7 @@ public class selectGameHandler : MonoBehaviour
             }
 
             songItem.Setup(songImage, songData.title, songData.creater);
-            songItem.button.onClick.AddListener(() => OnSongItemSelected(songData.title, songImage, songData.file, songData.creater, songData.active, songData.genre));
+            songItem.button.onClick.AddListener(() => OnSongItemSelected(songData.title, songImage, songData.filePath, songData.creater, songData.active, songData.genre));
 
             Debug.Log($"Added song to list: {songData.title}, Genre: {songData.genre}");
         }
@@ -267,9 +275,9 @@ public class selectGameHandler : MonoBehaviour
     private void OnDifficultyAdjustmentButtonClicked()
     {
         float successRate = GetSuccessRate();
-        newHitwindow = DifficultyAdjustment.GetDifficultyLevel(successRate, GlobalHandler.alpha) * 100;
+        newHitwindow = DifficultyAdjustment.GetDifficultyLevel(successRate, GlobalHandler.alpha) * 10;
         Debug.Log($"{successRate}");
-        GlobalHandler.Level = (int)slider.value*10;
+        GlobalHandler.Level = (int)slider.value * 10;
         Debug.Log($"{newHitwindow}");
         SetDifficultyValues(GlobalHandler.Level, newHitwindow);
     }

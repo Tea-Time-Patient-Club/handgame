@@ -7,6 +7,8 @@ public class GlobalHandler : MonoBehaviour
 
     public string SelectedHand { get; private set; }
     public string SelectedSongFile { get; private set; }
+    public string SelectedSongTitle { get; private set; }
+    public string SelectedSongArtist { get; private set; }
 
     // Combo 및 히트 카운트 배열
     public static int Combo { get; set; }
@@ -14,7 +16,7 @@ public class GlobalHandler : MonoBehaviour
     public static int[] HitCounts { get; set; }
 
     public static int ApprRate = 1000;
-    public static float HitWindow = 10f;
+    public static float HitWindow = 100f;
     public static int Level = 1;
     public static int ClickedCount = 0;
     public static int ClickedObject = 0;
@@ -57,11 +59,14 @@ public class GlobalHandler : MonoBehaviour
         SelectedHand = hand;
     }
 
-    public void SetSelectedSongFile(string songFile)
+    public void SetSelectedSongFile(string songFilePath, string songTitle, string songArtist)
     {
-        SelectedSongFile = songFile;
-        Debug.Log("Selected Song File: " + SelectedSongFile);
+        SelectedSongFile = songFilePath;
+        SelectedSongTitle = songTitle;
+        SelectedSongArtist = songArtist;
+        Debug.Log("Selected Song File: " + SelectedSongTitle);
     }
+
 
     // 게임 초기화를 위한 메서드
     public static void ResetGameStats()
