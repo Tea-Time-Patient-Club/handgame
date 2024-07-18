@@ -60,8 +60,58 @@
     <Analyzer Include="E:\data\unity_windows\2022.3.37f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Plugins\CircularScrollingList\_Demo\00-Common\Scripts\IntListBank.cs" />
+    <Compile Include="Assets\Plugins\CircularScrollingList\_Demo\05-CustomContent\Scripts\SpriteStringListBank.cs" />
+    <Compile Include="Assets\Plugins\CircularScrollingList\Scripts\ListStateProcessing\IListMovementProcessor.cs" />
+    <Compile Include="Assets\Plugins\CircularScrollingList\Scripts\ListStateProcessing\IBoxTransformController.cs" />
     <Compile Include="Assets\Plugins\BluetoothHardwareInterface.cs" />
+    <Compile Include="Assets\Plugins\CircularScrollingList\Scripts\ContentManagement\IListContent.cs" />
+    <Compile Include="Assets\Plugins\CircularScrollingList\Scripts\ListBank.cs" />
+    <Compile Include="Assets\Plugins\CircularScrollingList\Scripts\ListStateProcessing\Linear\Controller\DistanceMovementCurve.cs" />
+    <Compile Include="Assets\Plugins\CircularScrollingList\_Demo\00-Common\Scripts\IntListContent.cs" />
+    <Compile Include="Assets\Plugins\CircularScrollingList\_Demo\05-CustomContent\Scripts\StringStarListBank.cs" />
     <Compile Include="Assets\Plugins\BluetoothDeviceScript.cs" />
+    <Compile Include="Assets\Plugins\CircularScrollingList\_Demo\10-SelectionMovement\Scripts\ListIteration.cs" />
+    <Compile Include="Assets\Plugins\CircularScrollingList\Scripts\ListStateProcessing\Linear\Controller\IMovementCurve.cs" />
+    <Compile Include="Assets\Plugins\CircularScrollingList\Scripts\InputProcessing\InputProcessor.cs" />
+    <Compile Include="Assets\Plugins\CircularScrollingList\Scripts\ListStateProcessing\Linear\ListMovementProcessor.cs" />
+    <Compile Include="Assets\Plugins\CircularScrollingList\Scripts\ListStateProcessing\Linear\FocusingBoxFinder.cs" />
+    <Compile Include="Assets\Plugins\CircularScrollingList\Scripts\ListStateProcessing\ListStateProcessorManager.cs" />
+    <Compile Include="Assets\Plugins\CircularScrollingList\Scripts\Util\DeltaTimeCurve.cs" />
+    <Compile Include="Assets\Plugins\CircularScrollingList\_Demo\08-ListRefreshing\Scripts\AdjustableStringListBank.cs" />
+    <Compile Include="Assets\Plugins\CircularScrollingList\Scripts\ListStateProcessing\Linear\Controller\IMovementCtrl.cs" />
+    <Compile Include="Assets\Plugins\CircularScrollingList\Scripts\ListSetting.cs" />
+    <Compile Include="Assets\Plugins\CircularScrollingList\Scripts\IListBank.cs" />
+    <Compile Include="Assets\Plugins\CircularScrollingList\_Demo\00-Common\Scripts\FPSLimiter.cs" />
+    <Compile Include="Assets\Plugins\CircularScrollingList\Scripts\ContentManagement\ContentIDState.cs" />
+    <Compile Include="Assets\Plugins\CircularScrollingList\Scripts\ListStateProcessing\Linear\Controller\UnitMovementCtrl.cs" />
+    <Compile Include="Assets\Plugins\CircularScrollingList\_Demo\05-CustomContent\Scripts\ColorStrListBox.cs" />
+    <Compile Include="Assets\Plugins\CircularScrollingList\Scripts\ListStateProcessing\ListFocusingState.cs" />
+    <Compile Include="Assets\Plugins\CircularScrollingList\_Demo\07-LateInitialization\Scripts\LateInitialization.cs" />
+    <Compile Include="Assets\Plugins\CircularScrollingList\Scripts\Util\FactorUtility.cs" />
+    <Compile Include="Assets\Plugins\CircularScrollingList\_Demo\05-CustomContent\Scripts\StringStarListBox.cs" />
+    <Compile Include="Assets\Plugins\CircularScrollingList\Scripts\ListStateProcessing\BoxPositionState.cs" />
+    <Compile Include="Assets\Plugins\CircularScrollingList\Scripts\Util\RangeMappingCurve.cs" />
+    <Compile Include="Assets\Plugins\CircularScrollingList\Scripts\ListSetupData.cs" />
+    <Compile Include="Assets\Plugins\CircularScrollingList\Scripts\ListStateProcessing\Linear\Controller\VelocityMovementCurve.cs" />
+    <Compile Include="Assets\Plugins\CircularScrollingList\_Demo\05-CustomContent\Scripts\ColorStrListBank.cs" />
+    <Compile Include="Assets\Plugins\CircularScrollingList\_Demo\05-CustomContent\Scripts\SpriteStringListBox.cs" />
+    <Compile Include="Assets\Plugins\CircularScrollingList\Scripts\ListStateProcessing\Linear\ListBoxController.cs" />
+    <Compile Include="Assets\Plugins\CircularScrollingList\_Demo\06-ListEvents\Scripts\ListEventDemo.cs" />
+    <Compile Include="Assets\Plugins\CircularScrollingList\Scripts\CircularScrollingList.cs" />
+    <Compile Include="Assets\Plugins\CircularScrollingList\Scripts\ListBoxSetting.cs" />
+    <Compile Include="Assets\Plugins\CircularScrollingList\Scripts\IListBox.cs" />
+    <Compile Include="Assets\Plugins\CircularScrollingList\_Demo\08-ListRefreshing\Scripts\StringListBox.cs" />
+    <Compile Include="Assets\Plugins\CircularScrollingList\Scripts\ListStateProcessing\IListBoxController.cs" />
+    <Compile Include="Assets\Plugins\CircularScrollingList\Scripts\InputProcessing\InputInfo.cs" />
+    <Compile Include="Assets\Plugins\CircularScrollingList\Scripts\ContentManagement\ListContentProvider.cs" />
+    <Compile Include="Assets\Plugins\CircularScrollingList\_Demo\00-Common\Scripts\IntListBox.cs" />
+    <Compile Include="Assets\Plugins\CircularScrollingList\Scripts\ListStateProcessing\Linear\Controller\MovementUtility.cs" />
+    <Compile Include="Assets\Plugins\CircularScrollingList\Scripts\ListBox.cs" />
+    <Compile Include="Assets\Plugins\CircularScrollingList\_Demo\11-InteractingByScript\Scripts\ListInteraction.cs" />
+    <Compile Include="Assets\Plugins\CircularScrollingList\Scripts\ListStateProcessing\Linear\Controller\FreeMovementCtrl.cs" />
+    <Compile Include="Assets\Plugins\CircularScrollingList\Scripts\ListStateProcessing\Linear\Controller\BoxTransformController.cs" />
+    <Compile Include="Assets\Plugins\CircularScrollingList\Scripts\ListEvent.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Plugins\Android\AndroidManifest.xml" />
@@ -1011,6 +1061,10 @@
       <HintPath>Library\ScriptAssemblies\Unity.2D.Aseprite.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Nobi.UiRoundedCorners.Editor">
+      <HintPath>Library\ScriptAssemblies\Nobi.UiRoundedCorners.Editor.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Unity.AI.Navigation.Editor.ConversionSystem">
       <HintPath>Library\ScriptAssemblies\Unity.AI.Navigation.Editor.ConversionSystem.dll</HintPath>
       <Private>False</Private>
@@ -1131,6 +1185,10 @@
       <HintPath>Library\ScriptAssemblies\UnityEngine.SpatialTracking.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Nobi.UiRoundedCorners">
+      <HintPath>Library\ScriptAssemblies\Nobi.UiRoundedCorners.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Unity.VisualScripting.SettingsProvider.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.VisualScripting.SettingsProvider.Editor.dll</HintPath>
       <Private>False</Private>
@@ -1155,12 +1213,12 @@
       <HintPath>Library\ScriptAssemblies\Unity.InternalAPIEditorBridge.001.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Unity.VisualScripting.State.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.VisualScripting.State.Editor.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="Unity.Mobile.AndroidLogcat.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.Mobile.AndroidLogcat.Editor.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.VisualScripting.State.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.VisualScripting.State.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.Mathematics">

@@ -6,6 +6,7 @@ Rehabilitation your hand with rhythm game with Tea-time Patient Club!
 
 - Liberation Sans by RedHat [OFL](https://github.com/Tea-Time-Patient-Club/handgame/blob/main/Assets/TextMesh%20Pro/Fonts/LiberationSans%20-%20OFL.txt)
 - SUITE by Sunn [OFL](https://github.com/Tea-Time-Patient-Club/handgame/blob/main/Assets/TextMesh%20Pro/Fonts/SUITE-Variable%20OFL.txt) [Official Source](https://sun.fo/suite)
+- Unity-UI-Rounded-Corners [MIT](https://github.com/kirevdokimov/Unity-UI-Rounded-Corners/blob/master/LICENSE) [Official Source](https://github.com/kirevdokimov/Unity-UI-Rounded-Corners)
 
 ## Requirements
 
@@ -13,7 +14,8 @@ Rehabilitation your hand with rhythm game with Tea-time Patient Club!
 - Tested on Android only
 - Hand Controller would not work because it is hard-coded inside source code.
 - 3rd-party assets needed
-    - Bluetooth LE module by Shatalmic LLC / $20
+    - Bluetooth LE module by Shatalmic LLC / $20 / Unity Asset Store
+    - SimpleSpinner by Hippo / Free / Unity Asset Store
 
 ## Notes
 

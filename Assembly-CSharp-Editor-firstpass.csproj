@@ -10,10 +10,10 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{E8A91009-7186-A382-4FE4-3C21BA335F00}</ProjectGuid>
+    <ProjectGuid>{7F3A969F-4A57-9C7B-8B24-5476C852868F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <AssemblyName>Assembly-CSharp-Editor</AssemblyName>
+    <AssemblyName>Assembly-CSharp-Editor-firstpass</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <BaseDirectory>.</BaseDirectory>
@@ -50,7 +50,7 @@
     <UnityProjectGenerator>Package</UnityProjectGenerator>
     <UnityProjectGeneratorVersion>2.0.22</UnityProjectGeneratorVersion>
     <UnityProjectGeneratorStyle>Legacy</UnityProjectGeneratorStyle>
-    <UnityProjectType>Editor:5</UnityProjectType>
+    <UnityProjectType>EditorPlugins:7</UnityProjectType>
     <UnityBuildTarget>Android:13</UnityBuildTarget>
     <UnityVersion>2022.3.37f1</UnityVersion>
   </PropertyGroup>
@@ -60,7 +60,7 @@
     <Analyzer Include="E:\data\unity_windows\2022.3.37f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Shatalmic\Editor\BluetoothPostProcessBuild.cs" />
+    <Compile Include="Assets\Plugins\CircularScrollingList\Editor\CircularScrollingListEditor.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
@@ -1087,6 +1087,10 @@
       <HintPath>Library\ScriptAssemblies\Unity.2D.Aseprite.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Nobi.UiRoundedCorners.Editor">
+      <HintPath>Library\ScriptAssemblies\Nobi.UiRoundedCorners.Editor.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Unity.AI.Navigation.Editor.ConversionSystem">
       <HintPath>Library\ScriptAssemblies\Unity.AI.Navigation.Editor.ConversionSystem.dll</HintPath>
       <Private>False</Private>
@@ -1207,6 +1211,10 @@
       <HintPath>Library\ScriptAssemblies\UnityEngine.SpatialTracking.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Nobi.UiRoundedCorners">
+      <HintPath>Library\ScriptAssemblies\Nobi.UiRoundedCorners.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Unity.VisualScripting.SettingsProvider.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.VisualScripting.SettingsProvider.Editor.dll</HintPath>
       <Private>False</Private>
@@ -1280,10 +1288,6 @@
     <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
       <Project>{6A2F10FE-0898-9C1C-9897-D62F3A6958CF}</Project>
       <Name>Assembly-CSharp-firstpass</Name>
-    </ProjectReference>
-    <ProjectReference Include="Assembly-CSharp.csproj">
-      <Project>{32C3BDE6-E125-3128-82C1-25D0441455A3}</Project>
-      <Name>Assembly-CSharp</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
