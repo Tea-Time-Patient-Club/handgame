@@ -65,9 +65,9 @@
     <Compile Include="Assets\Plugins\CircularScrollingList\Scripts\ListStateProcessing\IListMovementProcessor.cs" />
     <Compile Include="Assets\Plugins\CircularScrollingList\Scripts\ListStateProcessing\IBoxTransformController.cs" />
     <Compile Include="Assets\Plugins\BluetoothHardwareInterface.cs" />
-    <Compile Include="Assets\Plugins\CircularScrollingList\Scripts\ContentManagement\IListContent.cs" />
-    <Compile Include="Assets\Plugins\CircularScrollingList\Scripts\ListBank.cs" />
     <Compile Include="Assets\Plugins\CircularScrollingList\Scripts\ListStateProcessing\Linear\Controller\DistanceMovementCurve.cs" />
+    <Compile Include="Assets\Plugins\CircularScrollingList\Scripts\ListBank.cs" />
+    <Compile Include="Assets\Plugins\CircularScrollingList\Scripts\ContentManagement\IListContent.cs" />
     <Compile Include="Assets\Plugins\CircularScrollingList\_Demo\00-Common\Scripts\IntListContent.cs" />
     <Compile Include="Assets\Plugins\CircularScrollingList\_Demo\05-CustomContent\Scripts\StringStarListBank.cs" />
     <Compile Include="Assets\Plugins\BluetoothDeviceScript.cs" />
@@ -1057,12 +1057,12 @@
       <HintPath>Library\ScriptAssemblies\Unity.Services.Core.Analytics.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Unity.2D.Aseprite.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.2D.Aseprite.Editor.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="Nobi.UiRoundedCorners.Editor">
       <HintPath>Library\ScriptAssemblies\Nobi.UiRoundedCorners.Editor.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.2D.Aseprite.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.2D.Aseprite.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.AI.Navigation.Editor.ConversionSystem">
@@ -1117,6 +1117,10 @@
       <HintPath>Library\ScriptAssemblies\Unity.VisualScripting.Shared.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Nobi.UiRoundedCorners">
+      <HintPath>Library\ScriptAssemblies\Nobi.UiRoundedCorners.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="UnityEditor.SpatialTracking">
       <HintPath>Library\ScriptAssemblies\UnityEditor.SpatialTracking.dll</HintPath>
       <Private>False</Private>
@@ -1161,10 +1165,6 @@
       <HintPath>Library\ScriptAssemblies\UnityEngine.Advertisements.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Purchasing.Common">
-      <HintPath>Library\ScriptAssemblies\Purchasing.Common.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="Unity.VisualScripting.Flow.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.VisualScripting.Flow.Editor.dll</HintPath>
       <Private>False</Private>
@@ -1185,8 +1185,8 @@
       <HintPath>Library\ScriptAssemblies\UnityEngine.SpatialTracking.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Nobi.UiRoundedCorners">
-      <HintPath>Library\ScriptAssemblies\Nobi.UiRoundedCorners.dll</HintPath>
+    <Reference Include="Purchasing.Common">
+      <HintPath>Library\ScriptAssemblies\Purchasing.Common.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.VisualScripting.SettingsProvider.Editor">

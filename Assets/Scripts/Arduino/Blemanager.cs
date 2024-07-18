@@ -128,6 +128,7 @@ public class BLEManager : MonoBehaviour
             if (serviceUUID == this.serviceUUID && charUUID == this.characteristicUUID)
             {
                 isConnected = true; // 연결 상태 업데이트
+                GlobalHandler.PlayerTool = 1;
                 connectedDeviceAddress = addr; // 연결된 장치 주소 저장
                 if (readDataButton != null)
                 {
@@ -149,6 +150,59 @@ public class BLEManager : MonoBehaviour
         });
     }
 
+    public void SubscribeToCharacteristic()
+    {
+        if (isConnected && !string.IsNullOrEmpty(connectedDeviceAddress))
+        {
+            BluetoothLEHardwareInterface.SubscribeCharacteristicWithDeviceAddress(
+                connectedDeviceAddress, serviceUUID, characteristicUUID,
+                (deviceAddress, characteristic) => { }, // Subscription callback
+                (deviceAddress, characteristic, bytes) => // Notification callback
+                {
+                    if (bytes.Length > 0)
+                    {
+                        string rawData = BitConverter.ToString(bytes); // 바이트 배열을 문자열로 변환
+                        Debug.Log("Received data: " + rawData);
+
+                        if (statusText != null)
+                        {
+                            statusText.text = "Subscribed data: " + rawData; // 수신된 데이터 표시
+                        }
+
+                        // 판정 로직을 추가할 수 있습니다.
+                    }
+                }
+            );
+        }
+        else
+        {
+            if (statusText != null)
+            {
+                statusText.text = "Not connected to any device"; // 연결되지 않은 상태 메시지 설정
+            }
+        }
+    }
+
+    public void UnsubscribeFromCharacteristic()
+    {
+        if (isConnected && !string.IsNullOrEmpty(connectedDeviceAddress))
+        {
+            BluetoothLEHardwareInterface.UnSubscribeCharacteristic(connectedDeviceAddress, serviceUUID, characteristicUUID, null);
+
+            if (statusText != null)
+            {
+                statusText.text = "Unsubscribed from characteristic"; // 구독 취소 메시지 설정
+            }
+        }
+        else
+        {
+            if (statusText != null)
+            {
+                statusText.text = "Not connected to any device"; // 연결되지 않은 상태 메시지 설정
+            }
+        }
+    }
+
     public void OnReadDataButtonClick()
     {
         if (isConnected && !string.IsNullOrEmpty(connectedDeviceAddress))
@@ -167,12 +221,11 @@ public class BLEManager : MonoBehaviour
         {
             if (bytes.Length > 0)
             {
-                string rawData = System.BitConverter.ToString(bytes); // 바이트 배열을 문자열로 변환
+                string rawData = BitConverter.ToString(bytes); // 바이트 배열을 문자열로 변환
                 if (statusText != null)
                     statusText.text = rawData; // 수신된 데이터 표시
 
                 // 판정 로직을 추가할 수 있습니다.
-
             }
         });
     }

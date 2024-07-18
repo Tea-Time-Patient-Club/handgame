@@ -61,34 +61,36 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Shatalmic\Example\MultipleLevels\FoundDeviceListScript.cs" />
-    <Compile Include="Assets\Scripts\완성\EndGameHandler.cs" />
-    <Compile Include="Assets\Scripts\selectHandler.cs" />
-    <Compile Include="Assets\Scripts\완성\Slider.cs" />
     <Compile Include="Assets\Scripts\Arduino\MainSceneController.cs" />
     <Compile Include="Assets\Scripts\UnityMainThreadDispatcher.cs" />
+    <Compile Include="Assets\Scripts\MainGame\GameHandler.cs" />
+    <Compile Include="Assets\Scripts\SceneHandlers\MainGameHandler.cs" />
     <Compile Include="Assets\Shatalmic\Example\ScannerTest\ScannerTestScript.cs" />
-    <Compile Include="Assets\Scripts\SongDataEntry.cs" />
-    <Compile Include="Assets\Scripts\Circle.cs" />
     <Compile Include="Assets\Scripts\Arduino\DataReadSceneController.cs" />
-    <Compile Include="Assets\Scripts\MainGameHandler.cs" />
-    <Compile Include="Assets\Scripts\GameHandler.cs" />
+    <Compile Include="Assets\Scripts\ComponentHandlers\SongItemListbox.cs" />
+    <Compile Include="Assets\Scripts\ComponentHandlers\SongBank.cs" />
+    <Compile Include="Assets\Scripts\SceneHandlers\SafeArea.cs" />
+    <Compile Include="Assets\Scripts\Data\DataManager.cs" />
+    <Compile Include="Assets\Scripts\SceneHandlers\StateHandler.cs" />
+    <Compile Include="Assets\Scripts\ComponentHandlers\Slider.cs" />
     <Compile Include="Assets\Shatalmic\Example\iBeaconExample\iBeaconItemScript.cs" />
-    <Compile Include="Assets\Scripts\완성\SongItem.cs" />
+    <Compile Include="Assets\Scripts\MainGame\Circle.cs" />
+    <Compile Include="Assets\Scripts\SceneHandlers\GlobalHandler.cs" />
+    <Compile Include="Assets\Scripts\SceneHandlers\ControllHandler.cs" />
+    <Compile Include="Assets\Scripts\SceneHandlers\SceneControll.cs" />
     <Compile Include="Assets\Shatalmic\Example\MultipleLevels\Level1Script.cs" />
-    <Compile Include="Assets\Scripts\SafeArea.cs" />
     <Compile Include="Assets\Shatalmic\Example\iBeaconExample\iBeaconExampleScript.cs" />
-    <Compile Include="Assets\Scripts\완성\StateHandler.cs" />
-    <Compile Include="Assets\Scripts\완성\SceneControll.cs" />
+    <Compile Include="Assets\Scripts\SceneHandlers\EndGameHandler.cs" />
+    <Compile Include="Assets\Scripts\Data\SongDataEntry.cs" />
     <Compile Include="Assets\Shatalmic\Example\ScannerTest\ScannedItemScript.cs" />
-    <Compile Include="Assets\Scripts\완성\ControllHandler.cs" />
-    <Compile Include="Assets\Scripts\완성\GlobalHandler.cs" />
+    <Compile Include="Assets\Scripts\ComponentHandlers\SongItem.cs" />
     <Compile Include="Assets\Shatalmic\Example\MultipleLevels\Level2Script.cs" />
     <Compile Include="Assets\Shatalmic\Example\StartingExample\StartingExample.cs" />
     <Compile Include="Assets\Scripts\Arduino\Blemanager.cs" />
     <Compile Include="Assets\Shatalmic\Example\MultipleLevels\DeviceObject.cs" />
     <Compile Include="Assets\SimpleSpinner\SimpleSpinner.cs" />
     <Compile Include="Assets\Shatalmic\Example\ArduinoHM10Test\ArduinoHM10Test.cs" />
-    <Compile Include="Assets\Scripts\DataManager.cs" />
+    <Compile Include="Assets\Scripts\SceneHandlers\selectHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
@@ -1062,12 +1064,12 @@
       <HintPath>Library\ScriptAssemblies\Unity.Services.Core.Analytics.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Unity.2D.Aseprite.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.2D.Aseprite.Editor.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="Nobi.UiRoundedCorners.Editor">
       <HintPath>Library\ScriptAssemblies\Nobi.UiRoundedCorners.Editor.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.2D.Aseprite.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.2D.Aseprite.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.AI.Navigation.Editor.ConversionSystem">
@@ -1122,6 +1124,10 @@
       <HintPath>Library\ScriptAssemblies\Unity.VisualScripting.Shared.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Nobi.UiRoundedCorners">
+      <HintPath>Library\ScriptAssemblies\Nobi.UiRoundedCorners.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="UnityEditor.SpatialTracking">
       <HintPath>Library\ScriptAssemblies\UnityEditor.SpatialTracking.dll</HintPath>
       <Private>False</Private>
@@ -1166,10 +1172,6 @@
       <HintPath>Library\ScriptAssemblies\UnityEngine.Advertisements.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Purchasing.Common">
-      <HintPath>Library\ScriptAssemblies\Purchasing.Common.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="Unity.VisualScripting.Flow.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.VisualScripting.Flow.Editor.dll</HintPath>
       <Private>False</Private>
@@ -1190,8 +1192,8 @@
       <HintPath>Library\ScriptAssemblies\UnityEngine.SpatialTracking.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Nobi.UiRoundedCorners">
-      <HintPath>Library\ScriptAssemblies\Nobi.UiRoundedCorners.dll</HintPath>
+    <Reference Include="Purchasing.Common">
+      <HintPath>Library\ScriptAssemblies\Purchasing.Common.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.VisualScripting.SettingsProvider.Editor">
