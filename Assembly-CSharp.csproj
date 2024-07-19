@@ -66,13 +66,13 @@
     <Compile Include="Assets\Scripts\MainGame\GameHandler.cs" />
     <Compile Include="Assets\Scripts\SceneHandlers\MainGameHandler.cs" />
     <Compile Include="Assets\Shatalmic\Example\ScannerTest\ScannerTestScript.cs" />
-    <Compile Include="Assets\Scripts\Arduino\DataReadSceneController.cs" />
     <Compile Include="Assets\Scripts\ComponentHandlers\SongItemListbox.cs" />
     <Compile Include="Assets\Scripts\ComponentHandlers\SongBank.cs" />
     <Compile Include="Assets\Scripts\SceneHandlers\SafeArea.cs" />
     <Compile Include="Assets\Scripts\Data\DataManager.cs" />
     <Compile Include="Assets\Scripts\SceneHandlers\StateHandler.cs" />
     <Compile Include="Assets\Scripts\ComponentHandlers\Slider.cs" />
+    <Compile Include="Assets\Scripts\SceneHandlers\TutorialManager.cs" />
     <Compile Include="Assets\Shatalmic\Example\iBeaconExample\iBeaconItemScript.cs" />
     <Compile Include="Assets\Scripts\MainGame\Circle.cs" />
     <Compile Include="Assets\Scripts\SceneHandlers\GlobalHandler.cs" />

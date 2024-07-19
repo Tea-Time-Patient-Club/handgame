@@ -3,36 +3,24 @@
   "WorkspaceRootPath": "C:\\Users\\lego3\\My project\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{32C3BDE6-E125-3128-82C1-25D0441455A3}|Assembly-CSharp.csproj|c:\\users\\lego3\\my project\\assets\\scripts\\arduino\\blemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{32C3BDE6-E125-3128-82C1-25D0441455A3}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\arduino\\blemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{32C3BDE6-E125-3128-82C1-25D0441455A3}|Assembly-CSharp.csproj|C:\\Users\\lego3\\My project\\assets\\scripts\\arduino\\mainscenecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{32C3BDE6-E125-3128-82C1-25D0441455A3}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\arduino\\mainscenecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{32C3BDE6-E125-3128-82C1-25D0441455A3}|Assembly-CSharp.csproj|c:\\users\\lego3\\my project\\assets\\scripts\\scenehandlers\\controllhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{32C3BDE6-E125-3128-82C1-25D0441455A3}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\scenehandlers\\controllhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{32C3BDE6-E125-3128-82C1-25D0441455A3}|Assembly-CSharp.csproj|C:\\Users\\lego3\\My project\\assets\\scripts\\maingame\\gamehandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{32C3BDE6-E125-3128-82C1-25D0441455A3}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\maingame\\gamehandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{32C3BDE6-E125-3128-82C1-25D0441455A3}|Assembly-CSharp.csproj|c:\\users\\lego3\\my project\\assets\\scripts\\scenehandlers\\endgamehandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{32C3BDE6-E125-3128-82C1-25D0441455A3}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\scenehandlers\\endgamehandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{32C3BDE6-E125-3128-82C1-25D0441455A3}|Assembly-CSharp.csproj|c:\\users\\lego3\\my project\\assets\\scripts\\arduino\\blemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{32C3BDE6-E125-3128-82C1-25D0441455A3}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\arduino\\blemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{32C3BDE6-E125-3128-82C1-25D0441455A3}|Assembly-CSharp.csproj|C:\\Users\\lego3\\My project\\assets\\scripts\\scenehandlers\\selecthandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{32C3BDE6-E125-3128-82C1-25D0441455A3}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\scenehandlers\\selecthandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{32C3BDE6-E125-3128-82C1-25D0441455A3}|Assembly-CSharp.csproj|C:\\Users\\lego3\\My project\\assets\\scripts\\scenehandlers\\globalhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{32C3BDE6-E125-3128-82C1-25D0441455A3}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\scenehandlers\\globalhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{32C3BDE6-E125-3128-82C1-25D0441455A3}|Assembly-CSharp.csproj|C:\\Users\\lego3\\My project\\assets\\scripts\\componenthandlers\\songitem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{32C3BDE6-E125-3128-82C1-25D0441455A3}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\componenthandlers\\songitem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{32C3BDE6-E125-3128-82C1-25D0441455A3}|Assembly-CSharp.csproj|C:\\Users\\lego3\\My project\\assets\\scripts\\componenthandlers\\songitemlistbox.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{32C3BDE6-E125-3128-82C1-25D0441455A3}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\componenthandlers\\songitemlistbox.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{32C3BDE6-E125-3128-82C1-25D0441455A3}|Assembly-CSharp.csproj|C:\\Users\\lego3\\My project\\assets\\scripts\\componenthandlers\\songbank.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{32C3BDE6-E125-3128-82C1-25D0441455A3}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\componenthandlers\\songbank.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{6A2F10FE-0898-9C1C-9897-D62F3A6958CF}|Assembly-CSharp-firstpass.csproj|C:\\Users\\lego3\\My project\\assets\\plugins\\bluetoothdevicescript.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6A2F10FE-0898-9C1C-9897-D62F3A6958CF}|Assembly-CSharp-firstpass.csproj|solutionrelative:assets\\plugins\\bluetoothdevicescript.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -47,101 +35,71 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "Blemanager.cs",
-              "DocumentMoniker": "C:\\Users\\lego3\\My project\\Assets\\Scripts\\Arduino\\Blemanager.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\Arduino\\Blemanager.cs",
-              "ToolTip": "C:\\Users\\lego3\\My project\\Assets\\Scripts\\Arduino\\Blemanager.cs",
-              "RelativeToolTip": "Assets\\Scripts\\Arduino\\Blemanager.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAANAAAA",
+              "Title": "MainSceneController.cs",
+              "DocumentMoniker": "C:\\Users\\lego3\\My project\\Assets\\Scripts\\Arduino\\MainSceneController.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Arduino\\MainSceneController.cs",
+              "ToolTip": "C:\\Users\\lego3\\My project\\Assets\\Scripts\\Arduino\\MainSceneController.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Arduino\\MainSceneController.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAEEAAAAuAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-18T08:26:06.541Z",
+              "WhenOpened": "2024-07-18T14:53:18.42Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "selectHandler.cs",
-              "DocumentMoniker": "C:\\Users\\lego3\\My project\\Assets\\Scripts\\SceneHandlers\\selectHandler.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\SceneHandlers\\selectHandler.cs",
-              "ToolTip": "C:\\Users\\lego3\\My project\\Assets\\Scripts\\SceneHandlers\\selectHandler.cs",
-              "RelativeToolTip": "Assets\\Scripts\\SceneHandlers\\selectHandler.cs",
-              "ViewState": "AQIAAAEBAAAAAAAAAAAcwBEBAAANAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-18T05:48:13.279Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "GameHandler.cs",
               "DocumentMoniker": "C:\\Users\\lego3\\My project\\Assets\\Scripts\\MainGame\\GameHandler.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\MainGame\\GameHandler.cs",
               "ToolTip": "C:\\Users\\lego3\\My project\\Assets\\Scripts\\MainGame\\GameHandler.cs",
               "RelativeToolTip": "Assets\\Scripts\\MainGame\\GameHandler.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAANAAAA",
+              "ViewState": "AQIAAGoCAAAAAgAAAAD4v3kCAAAsAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-18T05:41:35.247Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-07-18T14:44:35.592Z"
             },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ControllHandler.cs",
+              "DocumentMoniker": "C:\\Users\\lego3\\My project\\Assets\\Scripts\\SceneHandlers\\ControllHandler.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\SceneHandlers\\ControllHandler.cs",
+              "ToolTip": "C:\\Users\\lego3\\My project\\Assets\\Scripts\\SceneHandlers\\ControllHandler.cs",
+              "RelativeToolTip": "Assets\\Scripts\\SceneHandlers\\ControllHandler.cs",
+              "ViewState": "AQIAACwAAAAAAAAAAAAgwCMAAAAoAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-18T13:38:49.897Z",
+              "EditorCaption": ""
+            }
+          ]
+        },
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
             {
               "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "GlobalHandler.cs",
-              "DocumentMoniker": "C:\\Users\\lego3\\My project\\Assets\\Scripts\\SceneHandlers\\GlobalHandler.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\SceneHandlers\\GlobalHandler.cs",
-              "ToolTip": "C:\\Users\\lego3\\My project\\Assets\\Scripts\\SceneHandlers\\GlobalHandler.cs",
-              "RelativeToolTip": "Assets\\Scripts\\SceneHandlers\\GlobalHandler.cs",
-              "ViewState": "AQIAACwAAACAZmZmZuYhwB0AAAApAAAA",
+              "Title": "BluetoothDeviceScript.cs",
+              "DocumentMoniker": "C:\\Users\\lego3\\My project\\Assets\\Plugins\\BluetoothDeviceScript.cs",
+              "RelativeDocumentMoniker": "Assets\\Plugins\\BluetoothDeviceScript.cs",
+              "ToolTip": "C:\\Users\\lego3\\My project\\Assets\\Plugins\\BluetoothDeviceScript.cs",
+              "RelativeToolTip": "Assets\\Plugins\\BluetoothDeviceScript.cs",
+              "ViewState": "AQIAAHcBAAAAy8zMzIwwwAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-18T05:41:06.027Z"
+              "WhenOpened": "2024-07-19T07:22:17.758Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "EndGameHandler.cs",
-              "DocumentMoniker": "C:\\Users\\lego3\\My project\\Assets\\Scripts\\SceneHandlers\\EndGameHandler.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\SceneHandlers\\EndGameHandler.cs",
-              "ToolTip": "C:\\Users\\lego3\\My project\\Assets\\Scripts\\SceneHandlers\\EndGameHandler.cs",
-              "RelativeToolTip": "Assets\\Scripts\\SceneHandlers\\EndGameHandler.cs",
-              "ViewState": "AQIAAJkAAAAAZmZmZmYkwKcAAAAJAAAA",
+              "DocumentIndex": 3,
+              "Title": "Blemanager.cs",
+              "DocumentMoniker": "C:\\Users\\lego3\\My project\\Assets\\Scripts\\Arduino\\Blemanager.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Arduino\\Blemanager.cs",
+              "ToolTip": "C:\\Users\\lego3\\My project\\Assets\\Scripts\\Arduino\\Blemanager.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Arduino\\Blemanager.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAANgAAAAyAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-18T05:38:35.178Z",
+              "WhenOpened": "2024-07-18T12:46:50.421Z",
               "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "SongBank.cs",
-              "DocumentMoniker": "C:\\Users\\lego3\\My project\\Assets\\Scripts\\ComponentHandlers\\SongBank.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\ComponentHandlers\\SongBank.cs",
-              "ToolTip": "C:\\Users\\lego3\\My project\\Assets\\Scripts\\ComponentHandlers\\SongBank.cs",
-              "RelativeToolTip": "Assets\\Scripts\\ComponentHandlers\\SongBank.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-18T01:58:36.473Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "SongItem.cs",
-              "DocumentMoniker": "C:\\Users\\lego3\\My project\\Assets\\Scripts\\ComponentHandlers\\SongItem.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\ComponentHandlers\\SongItem.cs",
-              "ToolTip": "C:\\Users\\lego3\\My project\\Assets\\Scripts\\ComponentHandlers\\SongItem.cs",
-              "RelativeToolTip": "Assets\\Scripts\\ComponentHandlers\\SongItem.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA8AAAAlAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-18T01:57:07.349Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "SongItemListbox.cs",
-              "DocumentMoniker": "C:\\Users\\lego3\\My project\\Assets\\Scripts\\ComponentHandlers\\SongItemListbox.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\ComponentHandlers\\SongItemListbox.cs",
-              "ToolTip": "C:\\Users\\lego3\\My project\\Assets\\Scripts\\ComponentHandlers\\SongItemListbox.cs",
-              "RelativeToolTip": "Assets\\Scripts\\ComponentHandlers\\SongItemListbox.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABAAAAAFAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-18T01:56:14.503Z"
             }
           ]
         }

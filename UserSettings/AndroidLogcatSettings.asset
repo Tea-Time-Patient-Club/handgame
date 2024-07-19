@@ -3,7 +3,7 @@
     "m_SelectedProcess": {
         "deviceId": "38091FDJH00F3Z",
         "name": "com.ttpc.handgame_git",
-        "processId": 15242,
+        "processId": 10128,
         "exited": false
     },
     "m_SelectedPriority": 0,
@@ -11,37 +11,37 @@
         {
             "deviceId": "38091FDJH00F3Z",
             "name": "com.ttpc.handgame_git",
-            "processId": 27114,
+            "processId": 10777,
             "exited": true
         },
         {
             "deviceId": "38091FDJH00F3Z",
             "name": "com.ttpc.handgame_git",
-            "processId": 32437,
+            "processId": 12315,
             "exited": true
         },
         {
             "deviceId": "38091FDJH00F3Z",
             "name": "com.ttpc.handgame_git",
-            "processId": 29051,
+            "processId": 15005,
             "exited": true
         },
         {
             "deviceId": "38091FDJH00F3Z",
             "name": "com.ttpc.handgame_git",
-            "processId": 29310,
+            "processId": 16922,
             "exited": true
         },
         {
             "deviceId": "38091FDJH00F3Z",
             "name": "com.ttpc.handgame_git",
-            "processId": 5565,
+            "processId": 10128,
             "exited": false
         },
         {
-            "deviceId": "38091FDJH00F3Z",
+            "deviceId": "R9WNC0WMVFJ",
             "name": "com.ttpc.handgame_git",
-            "processId": 15242,
+            "processId": 7560,
             "exited": false
         }
     ],

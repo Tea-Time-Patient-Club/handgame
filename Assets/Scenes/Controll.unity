@@ -445,7 +445,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 74846042}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1036416563}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
 --- !u!114 &74846042
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1006,7 +1018,6 @@ MonoBehaviour:
   RealButton: {fileID: 292246037}
   NoButton: {fileID: 1960361013}
   songSelectPanel: {fileID: 43795114}
-  arduinoText: {fileID: 0}
 --- !u!1 &560076608
 GameObject:
   m_ObjectHideFlags: 0

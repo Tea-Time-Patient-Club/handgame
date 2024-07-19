@@ -29,8 +29,6 @@ public class GameHandler : MonoBehaviour
     [Header("UI")]
     public TextMeshPro hitText;
     public TextMeshPro missText;
-    public TextMeshProUGUI A;
-    public TextMeshProUGUI Aduino;
 
     [Header("Slider")]
     public Sprite sliderBodySprite;
@@ -41,7 +39,7 @@ public class GameHandler : MonoBehaviour
 
     const int SPAWN = -100;
     public static double timer = 0;
-    private int ArduinoHit = 0;
+    public static int ArduinoHit = 0;
 
     private List<GameObject> CircleList = new List<GameObject>();
     private List<HitObject> hitObjects = new List<HitObject>();
@@ -62,6 +60,7 @@ public class GameHandler : MonoBehaviour
 
     private Dictionary<int, GameObject> cursorTrailInstances = new Dictionary<int, GameObject>();
     private List<HitObject> activeHitObjects = new List<HitObject>();
+    private readonly object sliderCreationLock = new object();
 
     private struct BallInfo
     {
@@ -80,7 +79,6 @@ public class GameHandler : MonoBehaviour
             EndTime = endTime;
         }
     }
-
     private struct SliderInfo
     {
         public GameObject StartCircle;
@@ -104,7 +102,6 @@ public class GameHandler : MonoBehaviour
             LastParameter = lastParameter;
         }
     }
-
     public class HitObject
     {
         public Vector3 Position { get; private set; }
@@ -144,7 +141,6 @@ public class GameHandler : MonoBehaviour
             Debug.LogError($"Failed to load image file at path: {songFile}/BG");
         }
     }
-
     private void Start()
     {
         string selectedSongFile = GlobalHandler.Instance?.SelectedSongFile;
@@ -154,7 +150,6 @@ public class GameHandler : MonoBehaviour
         {
             BLEManager.Instance.SubscribeToCharacteristic(); // 구독 시작
         }
-
         if (!string.IsNullOrEmpty(selectedSongFile))
         {
             LoadResources(selectedSongFile);
@@ -162,11 +157,6 @@ public class GameHandler : MonoBehaviour
         else
         {
             Debug.LogError("No song file selected.");
-        }
-
-        if (BLEManager.Instance != null)
-        {
-            BLEManager.Instance.statusText = Aduino;
         }
 
         MainCamera = Camera.main;
@@ -212,10 +202,7 @@ public class GameHandler : MonoBehaviour
         }
 #endif
 
-        StartCoroutine(ReadBLEDataAfterDelay(0.1f));
     }
-
-
     void ReadCircles(string mapContent)
     {
         using (StringReader reader = new StringReader(mapContent))
@@ -273,6 +260,10 @@ public class GameHandler : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// ////////////
+    /// </summary>
+    /// <param name="hitObjectLines"></param>
     void ProcessHitObjectGroup(List<string> hitObjectLines)
     {
         foreach (string line in hitObjectLines)
@@ -335,73 +326,76 @@ public class GameHandler : MonoBehaviour
 
     private void CreateSlider(Vector3 startPosition, string[] lineParams)
     {
-        int beatTime = int.Parse(lineParams[2]);
-        Vector3 endPosition = CalculateCirclePosition(
-            int.Parse(lineParams[5].Split('|')[1].Split(':')[0]),
-            int.Parse(lineParams[5].Split('|')[1].Split(':')[1])
-        );
-
-        int lastParameter = 0;
-        if (lineParams.Length > 0 && int.TryParse(lineParams[lineParams.Length - 1], out int parsedValue))
+        lock (sliderCreationLock)
         {
-            lastParameter = parsedValue;
+            int beatTime = int.Parse(lineParams[2]);
+            Vector3 endPosition = CalculateCirclePosition(
+                int.Parse(lineParams[5].Split('|')[1].Split(':')[0]),
+                int.Parse(lineParams[5].Split('|')[1].Split(':')[1])
+            );
+
+            int lastParameter = 0;
+            if (lineParams.Length > 0 && int.TryParse(lineParams[lineParams.Length - 1], out int parsedValue))
+            {
+                lastParameter = parsedValue;
+            }
+
+            // 시작 원 생성 (비활성 상태로)
+            GameObject startCircle = Instantiate(CirclePrefab, startPosition, Quaternion.identity);
+            Circle startCircleComponent = startCircle.GetComponent<Circle>();
+            if (startCircleComponent != null)
+            {
+                startCircleComponent.Set(startPosition.x, startPosition.y, 0, beatTime - GlobalHandler.ApprRate, lastParameter);
+                startCircle.SetActive(false); // 처음에는 비활성 상태
+            }
+
+            // 슬라이더 라인 프리팹 인스턴스화
+            GameObject sliderLineObject = Instantiate(SliderLinePrefab);
+            SpriteRenderer sliderRenderer = sliderLineObject.GetComponent<SpriteRenderer>();
+            sliderRenderer.enabled = false; // 처음에는 비활성 상태
+
+            // 슬라이더 위치, 크기, 회전 설정
+            Vector3 direction = endPosition - startPosition;
+            float length = direction.magnitude;
+            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+
+            sliderLineObject.transform.position = (startPosition + endPosition) / 2;
+            sliderLineObject.transform.rotation = Quaternion.Euler(0, 0, angle);
+            sliderLineObject.transform.localScale = new Vector3(length / sliderRenderer.sprite.bounds.size.x, 1.5f, 1);
+
+            // 종료 시간 계산
+            float sliderDuration = GlobalHandler.ApprRate;
+            int endTime = beatTime + Mathf.RoundToInt(sliderDuration * 2);
+
+            // 종료 원 생성 (비활성 상태로)
+            GameObject endCircle = Instantiate(CirclePrefab, endPosition, Quaternion.identity);
+            Circle endCircleComponent = endCircle.GetComponent<Circle>();
+            if (endCircleComponent != null)
+            {
+                endCircleComponent.Set(endPosition.x, endPosition.y, 0, endTime - GlobalHandler.ApprRate, lastParameter);
+                endCircle.SetActive(false); // 처음에는 비활성 상태
+            }
+
+            // Ball 생성 (비활성 상태로)
+            GameObject ball = Instantiate(BallPrefab, startPosition, Quaternion.identity);
+            ball.SetActive(false); // 처음에는 비활성 상태
+            BallInfo ballInfo = new BallInfo(ball, startPosition, endPosition, (float)beatTime, (float)endTime);
+            ballInfoList.Add(ballInfo);
+
+            // hitObjects에 시작과 끝 원 추가
+            hitObjects.Add(new HitObject(startPosition, beatTime - GlobalHandler.ApprRate, beatTime, true));
+            hitObjects.Add(new HitObject(endPosition, endTime - GlobalHandler.ApprRate, endTime, true, true));
+
+            // CircleList에 추가
+            CircleList.Add(startCircle);
+            CircleList.Add(sliderLineObject);
+            CircleList.Add(endCircle);
+
+            // 슬라이더 정보 저장
+            sliderInfoList.Add(new SliderInfo(startCircle, sliderLineObject, endCircle, beatTime, endTime, sliderRenderer, ball, lastParameter));
+
+            GlobalHandler.TotalNotes += 2;  // 시작과 끝 노트를 각각 카운트
         }
-
-        // 시작 원 생성 (비활성 상태로)
-        GameObject startCircle = Instantiate(CirclePrefab, startPosition, Quaternion.identity);
-        Circle startCircleComponent = startCircle.GetComponent<Circle>();
-        if (startCircleComponent != null)
-        {
-            startCircleComponent.Set(startPosition.x, startPosition.y, 0, beatTime - GlobalHandler.ApprRate, lastParameter);
-            startCircle.SetActive(false); // 처음에는 비활성 상태
-        }
-
-        // 슬라이더 라인 프리팹 인스턴스화
-        GameObject sliderLineObject = Instantiate(SliderLinePrefab);
-        SpriteRenderer sliderRenderer = sliderLineObject.GetComponent<SpriteRenderer>();
-        sliderRenderer.enabled = false; // 처음에는 비활성 상태
-
-        // 슬라이더 위치, 크기, 회전 설정
-        Vector3 direction = endPosition - startPosition;
-        float length = direction.magnitude;
-        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-
-        sliderLineObject.transform.position = (startPosition + endPosition) / 2;
-        sliderLineObject.transform.rotation = Quaternion.Euler(0, 0, angle);
-        sliderLineObject.transform.localScale = new Vector3(length / sliderRenderer.sprite.bounds.size.x, 1.5f, 1);
-
-        // 종료 시간 계산
-        float sliderDuration = GlobalHandler.ApprRate;
-        int endTime = beatTime + Mathf.RoundToInt(sliderDuration * 2);
-
-        // 종료 원 생성 (비활성 상태로)
-        GameObject endCircle = Instantiate(CirclePrefab, endPosition, Quaternion.identity);
-        Circle endCircleComponent = endCircle.GetComponent<Circle>();
-        if (endCircleComponent != null)
-        {
-            endCircleComponent.Set(endPosition.x, endPosition.y, 0, endTime - GlobalHandler.ApprRate, lastParameter);
-            endCircle.SetActive(false); // 처음에는 비활성 상태
-        }
-
-        // Ball 생성 (비활성 상태로)
-        GameObject ball = Instantiate(BallPrefab, startPosition, Quaternion.identity);
-        ball.SetActive(false); // 처음에는 비활성 상태
-        BallInfo ballInfo = new BallInfo(ball, startPosition, endPosition, (float)beatTime, (float)endTime);
-        ballInfoList.Add(ballInfo);
-
-        // hitObjects에 시작과 끝 원 추가
-        hitObjects.Add(new HitObject(startPosition, beatTime - GlobalHandler.ApprRate, beatTime, true));
-        hitObjects.Add(new HitObject(endPosition, endTime - GlobalHandler.ApprRate, endTime, true, true));
-
-        // CircleList에 추가
-        CircleList.Add(startCircle);
-        CircleList.Add(sliderLineObject);
-        CircleList.Add(endCircle);
-
-        // 슬라이더 정보 저장
-        sliderInfoList.Add(new SliderInfo(startCircle, sliderLineObject, endCircle, beatTime, endTime, sliderRenderer, ball, lastParameter));
-
-        GlobalHandler.TotalNotes += 2;  // 시작과 끝 노트를 각각 카운트
     }
 
     private void UpdateSliders()
@@ -556,44 +550,106 @@ public class GameHandler : MonoBehaviour
             yield return null;
         }
     }
+    private void PerformCollisionDetection(Vector2 position)
+    {
+        if (MainCamera == null)
+        {
+            Debug.LogError("MainCamera is null");
+            return;
+        }
+
+        Vector3 worldPosition = MainCamera.ScreenToWorldPoint(new Vector3(position.x, position.y, MainCamera.nearClipPlane));
+
+        List<int> hitObjectIndicesToRemove = new List<int>();
+
+        for (int i = activeHitObjects.Count - 1; i >= 0; i--)
+        {
+            HitObject hitObject = activeHitObjects[i];
+            if(ArduinoHit == 1)
+            {
+                worldPosition = hitObject.Position;
+            }
+
+            if (hitObject == null)
+            {
+                continue;
+            }
+
+            float distance = Vector2.Distance(worldPosition, hitObject.Position);
+
+            if (distance <= GlobalHandler.HitRadius)
+            {
+                float timeDifference = Mathf.Abs((float)timer - hitObject.BeatTime);
+                if (timeDifference <= GlobalHandler.HitWindow || ArduinoHit == 1)
+                {
+                    int circleIndex = GlobalHandler.ObjCount - activeHitObjects.Count + i;
+                    if (circleIndex >= 0 && circleIndex < CircleList.Count)
+                    {
+                        GameObject hitCircle = CircleList[circleIndex];
+                        if (hitCircle != null)
+                        {
+                            Circle circleComponent = hitCircle.GetComponent<Circle>();
+                            if (circleComponent != null)
+                            {
+                                if (hitObject.IsSlider)
+                                {
+                                    if (hitObject.IsEnd)
+                                    {
+                                        HandleEndCircleHit(circleComponent);
+                                    }
+                                    else
+                                    {
+                                        HandleStartCircleHit(circleComponent);
+                                    }
+                                }
+                                else
+                                {
+                                    HandleCircleHit(circleComponent);
+                                }
+                                hitObjectIndicesToRemove.Add(i);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        // Remove hit objects in reverse order to maintain correct indices
+        for (int i = hitObjectIndicesToRemove.Count - 1; i >= 0; i--)
+        {
+            activeHitObjects.RemoveAt(hitObjectIndicesToRemove[i]);
+        }
+
+        GlobalHandler.ClickedCount++;
+        ArduinoHit = 0; // Hit 처리 후 초기화
+    }
+
+
     private IEnumerator ReadBLEDataAfterDelay(double delayTime)
     {
         double startTime = Time.time * 1000;
         double endTime = startTime + delayTime;
-        A.text = Aduino.text;
+        TextMeshProUGUI statusText = null;
+        
         while ((Time.time * 1000) < endTime)
         {
             // BLE 데이터 읽기
             if (BLEManager.Instance != null)
             {
-                //BLEManager.Instance.OnReadDataButtonClick();
-
-                A.text = Aduino.text;
-                // 데이터에 따라 히트 판정
-                if (Aduino != null && Aduino.text.Contains("31"))
-                {
-                    HandleHit();
-                }
-            }
-            else
-            {
-                A.text = "not found.";
+                BLEManager.Instance.ReadDataFromDevice(statusText);
+                yield return new WaitForSeconds(1f);
+                PerformCollisionDetection(new Vector2(0, 0)); // Hit 판정 수행
             }
 
             // 0.3초 대기
-            yield return null;//itForSeconds(0.2f);
+            yield return null;
         }
-    }
-
-    private void HandleHit()
-    {
-        ArduinoHit = 1;
-        A.text = "AAAA";
-        PerformCollisionDetection(new Vector2(999, 999));
     }
 
     private void HandleInput()
     {
+        if (GlobalHandler.PlayerTool == 1) return; // 아두이노 히트 시 터치 입력 무시
+
         const int MAX_TOUCHES = 5;
         int touchCount = Mathf.Min(Input.touchCount, MAX_TOUCHES);
 
@@ -632,70 +688,6 @@ public class GameHandler : MonoBehaviour
         RemoveUnusedCursorTrails();
     }
 
-    private void PerformCollisionDetection(Vector2 position)
-    {
-        if (MainCamera == null)
-        {
-            Debug.LogError("MainCamera is null");
-            return;
-        }
-
-        Vector3 worldPosition = MainCamera.ScreenToWorldPoint(new Vector3(position.x, position.y, MainCamera.nearClipPlane));
-
-        List<int> hitObjectIndicesToRemove = new List<int>();
-
-        for (int i = activeHitObjects.Count - 1; i >= 0; i--)
-        {
-            HitObject hitObject = activeHitObjects[i];
-            if (hitObject == null)
-            {
-                continue;
-            }
-
-            float distance = Vector2.Distance(worldPosition, hitObject.Position);
-
-            if (ArduinoHit == 1 || distance <= GlobalHandler.HitRadius)
-            {
-                float timeDifference = Mathf.Abs((float)timer - hitObject.BeatTime);
-                if (timeDifference <= GlobalHandler.HitWindow)
-                {
-                    int circleIndex = GlobalHandler.ObjCount - activeHitObjects.Count + i;
-                    if (circleIndex >= 0 && circleIndex < CircleList.Count)
-                    {
-                        GameObject hitCircle = CircleList[circleIndex];
-                        if (hitCircle != null)
-                        {
-                            Circle circleComponent = hitCircle.GetComponent<Circle>();
-                            if (circleComponent != null)
-                            {
-                                if (hitObject.IsSlider)
-                                {
-                                    HandleSliderHit(circleComponent, hitObject.IsEnd);
-                                }
-                                else
-                                {
-                                    HandleCircleHit(circleComponent);
-                                }
-
-                                hitObjectIndicesToRemove.Add(i);
-
-                                Debug.Log($"Hit successful! Distance: {distance}, Time difference: {timeDifference}");
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        // Remove hit objects in reverse order to maintain correct indices
-        for (int i = hitObjectIndicesToRemove.Count - 1; i >= 0; i--)
-        {
-            activeHitObjects.RemoveAt(hitObjectIndicesToRemove[i]);
-        }
-
-        GlobalHandler.ClickedCount++;
-    }
-
     private void HandleCircleHit(Circle circle)
     {
         circle.Got();
@@ -710,7 +702,7 @@ public class GameHandler : MonoBehaviour
         ShowHitText();
     }
 
-    private void HandleSliderHit(Circle circle, bool isEnd)
+    private void HandleEndCircleHit(Circle circle)
     {
         circle.Got();
         GlobalHandler.ClickedObject++;
@@ -722,18 +714,61 @@ public class GameHandler : MonoBehaviour
         }
         ShowHitText();
 
-        SliderInfo sliderInfo = sliderInfoList.Find(s => s.StartCircle == circle.gameObject || s.EndCircle == circle.gameObject);
-        if (sliderInfo.StartCircle == circle.gameObject)
+        SliderInfo? sliderInfo = sliderInfoList.Find(s => s.EndCircle == circle.gameObject);
+        if (sliderInfo.HasValue)
         {
-            sliderInfo.StartCircle.SetActive(false);
-            sliderInfo.SliderRenderer.enabled = true;
-            sliderInfo.Ball.SetActive(true);
+            SliderInfo validSliderInfo = sliderInfo.Value;
+            if (validSliderInfo.EndCircle != null)
+            {
+                validSliderInfo.EndCircle.SetActive(false);
+                validSliderInfo.Ball.SetActive(false);
+                validSliderInfo.SliderRenderer.enabled = false;
+            }
         }
-        else if (sliderInfo.EndCircle == circle.gameObject && isEnd)
+    }
+    private void HandleStartCircleHit(Circle circle)
+    {
+        circle.Got();
+        GlobalHandler.ClickedObject++;
+        GlobalHandler.SuccessfulHits++;
+        GlobalHandler.Combo++;
+        if (GlobalHandler.Combo > GlobalHandler.MaxCombo)
         {
-            sliderInfo.EndCircle.SetActive(false);
-            sliderInfo.Ball.SetActive(false);
-            sliderInfo.SliderRenderer.enabled = false;
+            GlobalHandler.MaxCombo = GlobalHandler.Combo;
+        }
+        ShowHitText();
+
+        SliderInfo? sliderInfo = sliderInfoList.Find(s => s.StartCircle == circle.gameObject);
+        if (sliderInfo.HasValue)
+        {
+            SliderInfo validSliderInfo = sliderInfo.Value;
+            if (validSliderInfo.StartCircle != null)
+            {
+                validSliderInfo.StartCircle.SetActive(false);
+                validSliderInfo.SliderRenderer.enabled = true;
+                validSliderInfo.Ball.SetActive(true);
+            }
+        }
+    }
+
+
+    private void UpdateBallPositions()
+    {
+        for (int i = ballInfoList.Count - 1; i >= 0; i--)
+        {
+            BallInfo ballInfo = ballInfoList[i];
+            float t = Mathf.InverseLerp(ballInfo.StartTime, ballInfo.EndTime, (float)timer);
+
+            if (t >= 1f)
+            {
+                Destroy(ballInfo.BallObject);
+                ballInfoList.RemoveAt(i);
+            }
+            else
+            {
+                Vector3 newPos = Vector3.Lerp(ballInfo.StartPos, ballInfo.EndPos, t);
+                ballInfo.BallObject.transform.position = newPos;
+            }
         }
     }
 
@@ -770,15 +805,6 @@ public class GameHandler : MonoBehaviour
         }
     }
 
-    private void RemoveCursorTrail(int fingerId)
-    {
-        if (cursorTrailInstances.ContainsKey(fingerId))
-        {
-            Destroy(cursorTrailInstances[fingerId]);
-            cursorTrailInstances.Remove(fingerId);
-        }
-    }
-
     private void RemoveUnusedCursorTrails()
     {
         List<int> keysToRemove = new List<int>();
@@ -798,38 +824,21 @@ public class GameHandler : MonoBehaviour
         {
             Destroy(cursorTrailInstances[key]);
             cursorTrailInstances.Remove(key);
-            Debug.Log($"Removed cursor trail with id: {key}");
         }
     }
 
-    private void UpdateBallPositions()
+    private void RemoveCursorTrail(int fingerId)
     {
-        for (int i = ballInfoList.Count - 1; i >= 0; i--)
+        if (cursorTrailInstances.ContainsKey(fingerId))
         {
-            BallInfo ballInfo = ballInfoList[i];
-            float t = Mathf.InverseLerp(ballInfo.StartTime, ballInfo.EndTime, (float)timer);
-
-            if (t >= 1f)
-            {
-                Destroy(ballInfo.BallObject);
-                ballInfoList.RemoveAt(i);
-            }
-            else
-            {
-                Vector3 newPos = Vector3.Lerp(ballInfo.StartPos, ballInfo.EndPos, t);
-                ballInfo.BallObject.transform.position = newPos;
-            }
+            Destroy(cursorTrailInstances[fingerId]);
+            cursorTrailInstances.Remove(fingerId);
         }
     }
 
     void EndGame()
     {
         Debug.Log("Game Over!");
-
-        if (BLEManager.Instance != null)
-        {
-            BLEManager.Instance.UnsubscribeFromCharacteristic(); // 구독 취소
-        }
 
         CircleList.Clear();
         hitObjects.Clear();

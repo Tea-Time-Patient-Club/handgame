@@ -33,15 +33,7 @@ public class StateHandler1 : MonoBehaviour
     // 기존 메서드들은 그대로 유지...
     public void OnTutorialButtonClick()
     {
-        if (GlobalHandler.Instance != null)
-        {
-            GlobalHandler.Instance.SetSelectedSongFile("GameData/Tutorial", "Tutorial", "");
-        }
-        else
-        {
-            Debug.LogError("GlobalHandler instance not found!");
-        }
-        SceneManager.LoadScene("Main");
+        SceneManager.LoadScene("Tutorial");
     }
 
     public void OnClearButtonClick()
