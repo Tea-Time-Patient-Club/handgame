@@ -3,7 +3,7 @@
     "m_SelectedProcess": {
         "deviceId": "38091FDJH00F3Z",
         "name": "com.ttpc.handgame_git",
-        "processId": 10128,
+        "processId": 25188,
         "exited": false
     },
     "m_SelectedPriority": 0,
@@ -36,6 +36,18 @@
             "deviceId": "38091FDJH00F3Z",
             "name": "com.ttpc.handgame_git",
             "processId": 10128,
+            "exited": false
+        },
+        {
+            "deviceId": "38091FDJH00F3Z",
+            "name": "com.ttpc.handgame_git",
+            "processId": 14957,
+            "exited": false
+        },
+        {
+            "deviceId": "38091FDJH00F3Z",
+            "name": "com.ttpc.handgame_git",
+            "processId": 25188,
             "exited": false
         },
         {

@@ -20,8 +20,7 @@ public class BLEManager : MonoBehaviour
     private bool isConnected = false; // 연결 상태를 추적하기 위한 변수
     private string connectedDeviceAddress; // 연결된 장치 주소
     private bool isScanning = false; // 스캔 상태를 추적하기 위한 변수
-    int i = 0;
-
+    
     private void Awake()
     {
         if (Instance == null)

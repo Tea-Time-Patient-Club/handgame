@@ -64,6 +64,9 @@ public class selectGameHandler : MonoBehaviour
         {
             SongDataList songDataList = JsonUtility.FromJson<SongDataList>(jsonData.text);
             songList = songDataList.songs;
+
+            int selectedSongIndex = UnityEngine.Random.Range(0, songList.Count);
+            SelectSongItemByCode(songList[selectedSongIndex].title, songList[selectedSongIndex].creater);
         }
         else
         {

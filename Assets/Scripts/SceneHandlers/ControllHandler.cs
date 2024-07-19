@@ -15,8 +15,6 @@ public class StateHandler1 : MonoBehaviour
 
     [SerializeField]
     public GameObject songSelectPanel;
-    private int dataReceivedCount = 0;
-
 
     void Start()
     {
