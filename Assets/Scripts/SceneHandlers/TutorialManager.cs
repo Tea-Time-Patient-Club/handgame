@@ -195,7 +195,7 @@ public class TutorialManager : MonoBehaviour
         {
             note.SetActive(false);
             note2.SetActive(false);
-            messageText.text = "Greate!";
+            messageText.text = "Great!";
         }
         else if (touchCount == 19)
         {
