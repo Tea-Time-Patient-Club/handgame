@@ -55,6 +55,7 @@ public class selectGameHandler : MonoBehaviour
         }
 
         difficultyAdjustmentButton.onClick.AddListener(OnDifficultyAdjustmentButtonClicked);
+        slider.value = 0.01f;
     }
 
     private void LoadSongData()
@@ -91,7 +92,10 @@ public class selectGameHandler : MonoBehaviour
             selectedLevelImage.sprite = difficultyHard;
             selectedLevelAdviceText.text = "May similar to common rhythm games.";
         }
-
+        if(slider.value == 0)
+        {
+            slider.value = 0.1f;
+        }
         GlobalHandler.Level = (int)(value * 10);
         SetDifficultyValues(GlobalHandler.Level);
     }
@@ -179,7 +183,6 @@ public class selectGameHandler : MonoBehaviour
     private void OnRecommendationButtonClicked()
     {
         string lastPlayedGenre = GetLastPlayedGenre();
-        Debug.Log($"Last Played Genre: {lastPlayedGenre}");
 
         List<SongDataEntry> recommendedSongs;
 
@@ -296,10 +299,8 @@ public class selectGameHandler : MonoBehaviour
     private void OnDifficultyAdjustmentButtonClicked()
     {
         float successRate = GetSuccessRate();
-        newHitwindow = DifficultyAdjustment.GetDifficultyLevel(successRate, GlobalHandler.alpha) * 10;
-        Debug.Log($"{successRate}");
+        newHitwindow = DifficultyAdjustment.GetDifficultyLevel(successRate, GlobalHandler.alpha) * 80;
         GlobalHandler.Level = (int)slider.value * 10;
-        Debug.Log($"{newHitwindow}");
         SetDifficultyValues(GlobalHandler.Level, newHitwindow);
     }
 
@@ -307,8 +308,6 @@ public class selectGameHandler : MonoBehaviour
     {
         float movementTime; // 4cm 이동하는 데 걸리는 시간 (초)
         float movesize = 40;
-
-        Debug.Log($"{level}");
 
         if (level <= 3)
         {
@@ -334,16 +333,11 @@ public class selectGameHandler : MonoBehaviour
             GlobalHandler.HitWindow = 100.0f + newHitWindow;
             GlobalHandler.levelSystemY = GlobalHandler.HitWindow; 
             slider.value = Mathf.Lerp(0.0f, 1.0f, Mathf.InverseLerp(0f, 100f, GlobalHandler.HitWindow));
-            Debug.Log($"{GlobalHandler.HitWindow}");
         }
         else
         {
             // 기존 방식대로 HitWindow 계산
             GlobalHandler.HitWindow = Mathf.Lerp(10f, 100f, (9.09f - movementTime) / (9.09f - 5.48f));
-            Debug.Log($"{GlobalHandler.HitWindow}");
         }
-        Debug.Log($"{slider.value}");
-        Debug.Log($"{GlobalHandler.HitWindow}");
-        Debug.Log($"{GlobalHandler.ApprRate}");
     }
 }

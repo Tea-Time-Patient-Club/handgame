@@ -35,10 +35,8 @@ public class StateHandler : MonoBehaviour
     public TextMeshProUGUI MonthFeedBack;
 
     public GameObject fingerSliderPrefab;
-    public GameObject fiveFingerSliderPrefab;
     public Transform weekContentPanel;
     public Transform monthContentPanel;
-    public Transform dataContentPanel;
 
     public Sprite rightHand;
     public Sprite leftHand;
@@ -91,6 +89,8 @@ public class StateHandler : MonoBehaviour
             weekHandImage.sprite = leftHand;
         }
 
+        LoadPlayData();
+        DisplayPlayData(weekPlayData, weekContentPanel, "Week");
         handPanel.SetActive(false);
         panel.SetActive(true);
         weekPanel.SetActive(true);
@@ -177,9 +177,6 @@ public class StateHandler : MonoBehaviour
 
         float weeklyAverageAlpha = CalculateAverageAlpha(weekPlayData);
         float monthlyAverageAlpha = CalculateAverageAlpha(monthPlayData);
-
-        Debug.Log($"Weekly Average Alpha: {weeklyAverageAlpha}, Feedback: {WeekFeedBack.text}");
-        Debug.Log($"Monthly Average Alpha: {monthlyAverageAlpha}, Feedback: {MonthFeedBack.text}");
 
         WeekFeedBack.text = GenerateFeedback(weeklyAverageAlpha);
         MonthFeedBack.text = GenerateFeedback(monthlyAverageAlpha);

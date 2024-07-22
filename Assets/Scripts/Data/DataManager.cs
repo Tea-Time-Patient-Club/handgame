@@ -3,11 +3,32 @@ using System;
 using System.IO;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using UnityEngine.UI;
 
 public static class DataManager
 {
+    [Serializable]
+    public class SongData
+    {
+        public string title;
+        public string creater;
+        public string filePath;
+        public int active;
+        public string genre;
+    }
+
+    [Serializable]
+    public class SongDataList
+    {
+        public List<SongData> songs = new List<SongData>();
+    }
+
     private const string DATA_FOLDER_NAME = "GameData";
     private const string ALL_GAME_DATA_FILE = "AllGameData.json";
+
+    // 모든 노래 데이터 파일 경로와 노래 데이터 파일 경로를 설정합니다.
+    private const string ALL_SONG_DATA_FILE = "ALLSongData";
+    private const string SONG_DATA_FILE = "SongData";
 
     public static string GetDataPath(string fileName)
     {
@@ -175,5 +196,9 @@ public static class DataManager
         {
             Debug.LogWarning($"No data file found to delete at {filePath}");
         }
+    }
+    public static void CopySequentialSongData()
+    {
+    
     }
 }

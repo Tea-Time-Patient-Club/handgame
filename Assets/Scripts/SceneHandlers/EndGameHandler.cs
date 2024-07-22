@@ -5,7 +5,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System;
-using static UnityEngine.UI.ScrollRect;
 
 [System.Serializable]
 public class GameData
@@ -24,7 +23,7 @@ public class GameData
     public string Genre;
     public int TotalNotes;
     public float alpha;
-    public float LevelSystemX; 
+    public float LevelSystemX;
     public float LevelSystemY;
 }
 
@@ -36,15 +35,14 @@ public class GameDataList
 
 public class EndGameHandler : MonoBehaviour
 {
-    // Database path constants
-    private const string DATA_DIRECTORY_PATH = "Resources/GameData"; // Path to GameData directory
-    private const string GAME_DATA_FILE = "AllGameData.json"; // Game data file name
+    private const string DATA_DIRECTORY_PATH = "Resources/GameData";
+    private const string GAME_DATA_FILE = "AllGameData.json";
 
     public TextMeshProUGUI ComboText;
     public TextMeshProUGUI successText;
     public TextMeshProUGUI failText;
     public TextMeshProUGUI TotalText;
-    
+
     public Image songImage;
     public TextMeshProUGUI songTitleText;
     public TextMeshProUGUI songArtistText;
@@ -55,7 +53,7 @@ public class EndGameHandler : MonoBehaviour
 
     public Sprite toolHardwareSprite;
     public Sprite toolTouchscreenSprite;
-    
+
     public Sprite easyLevel;
     public Sprite normalLevel;
     public Sprite hardLevel;
@@ -66,19 +64,15 @@ public class EndGameHandler : MonoBehaviour
     public TextMeshProUGUI PerformanceText;
     public Slider pointSlider;
 
+    public GameObject animatedObject; // "New Treatment" 텍스트에 해당하는 오브젝트
+
     private string filePath;
-    
+
     private void Start()
     {
         pointSlider.interactable = false;
         UpdateEndGameUI();
         filePath = Path.Combine(Application.persistentDataPath, GAME_DATA_FILE);
-        DataSave();
-
-        if(GlobalHandler.Instance.SelectedSongFile == "Tutorial")
-        {
-            
-        }
     }
 
     private void DataSave()
@@ -103,9 +97,9 @@ public class EndGameHandler : MonoBehaviour
                 alpha = GlobalHandler.alpha,
                 LevelSystemX = GlobalHandler.levelSystemX,
                 LevelSystemY = GlobalHandler.levelSystemY
-             };
+            };
 
-             DataManager.SaveGameData(gameData);
+            DataManager.SaveGameData(gameData);
         }
         else
         {
@@ -120,25 +114,26 @@ public class EndGameHandler : MonoBehaviour
 
     private void UpdateEndGameUI()
     {
-        // Update success and fail counts
         successText.text = $"{GlobalHandler.SuccessfulHits}";
         failText.text = $"{GlobalHandler.TotalNotes - GlobalHandler.SuccessfulHits}";
         TotalText.text = $"{GlobalHandler.TotalNotes}";
         ComboText.text = $"{GlobalHandler.MaxCombo}";
-        PerformanceText.text = $"{GlobalHandler.SuccessfulHits * GlobalHandler.Level}"; // Successful hits * Level
         pointSlider.value = (float)GlobalHandler.SuccessfulHits / GlobalHandler.TotalNotes;
-        Debug.Log($"{GlobalHandler.SuccessfulHits}"+"aasadf"+$"{GlobalHandler.TotalNotes}");
+
+        if (GlobalHandler.Level == 0)
+            PerformanceText.text = $"{GlobalHandler.SuccessfulHits * 1}";
+        else
+            PerformanceText.text = $"{GlobalHandler.SuccessfulHits * GlobalHandler.Level}";
 
         if (GlobalHandler.PlayerTool == 1)
         {
-            playToolImage.sprite = toolHardwareSprite; // 1 is Arduino
+            playToolImage.sprite = toolHardwareSprite;
         }
         else
         {
-            playToolImage.sprite = toolTouchscreenSprite; // 0 is Phone
+            playToolImage.sprite = toolTouchscreenSprite;
         }
 
-        // Update song image and title
         string selectedSongFile = GlobalHandler.Instance?.SelectedSongFile;
         string selectedSongTitle = GlobalHandler.Instance?.SelectedSongTitle;
         string selectedSongArtist = GlobalHandler.Instance?.SelectedSongArtist;
@@ -150,7 +145,6 @@ public class EndGameHandler : MonoBehaviour
             songImage.sprite = Resources.Load<Sprite>($"{selectedSongFile}/Image");
         }
 
-        // Update selected hand information
         if (GlobalHandler.Instance != null)
         {
             string selectedHand = GlobalHandler.Instance.SelectedHand;
@@ -164,11 +158,47 @@ public class EndGameHandler : MonoBehaviour
         else if (GlobalHandler.Level <= 6)
         {
             levelImage.sprite = normalLevel;
-
         }
-        else // level <= 10
+        else
         {
             levelImage.sprite = hardLevel;
         }
+
+        CheckAccuracyAndAnimate();
+    }
+
+    private void CheckAccuracyAndAnimate()
+    {
+        float accuracy = (float)GlobalHandler.SuccessfulHits / GlobalHandler.TotalNotes;
+        // Custom logic for checking accuracy and triggering animation can be added here
+        if (accuracy > 0.8f)
+        {
+            StartCoroutine(AnimateObject());
+            DataManager.CopySequentialSongData();
+        }
+    }
+
+
+    private IEnumerator AnimateObject()
+    {
+        if (animatedObject == null)
+        {
+            Debug.LogError("Animated object is not assigned!");
+            yield break;
+        }
+
+        Vector3 originalPosition = animatedObject.transform.localPosition;
+        Vector3 leftPosition = originalPosition + new Vector3(-300f, 0f, 0f); // 왼쪽으로 이동하는 거리 설정
+        Vector3 rightPosition = originalPosition + new Vector3(300f, 0f, 0f); // 오른쪽으로 이동하는 거리 설정
+
+        // 왼쪽으로 이동
+        float elapsedTime = 0f;
+        while (elapsedTime < 10f) // 10초 동안 이동
+        {
+            animatedObject.transform.localPosition = Vector3.Lerp(originalPosition, leftPosition, elapsedTime / 1f);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        animatedObject.transform.localPosition = leftPosition;
     }
 }

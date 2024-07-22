@@ -51,7 +51,7 @@ public class TutorialManager : MonoBehaviour
         switch (touchCount)
         {
             case 1:
-                messageText.text = "A~E each represent the thumb to the pinky finger, respectively.\n put your hand like image.";
+                messageText.text = "A~E each represent the thumb to the pinky finger.\n put your hand like image.";
                 
                 
                 
@@ -181,7 +181,8 @@ public class TutorialManager : MonoBehaviour
                 break;
                 
         }
-        if(touchCount==15){
+        if (touchCount == 15)
+        {
             note.SetActive(true);
             note2.SetActive(true);
             noteText.text = "";
@@ -190,13 +191,20 @@ public class TutorialManager : MonoBehaviour
             note2.transform.localPosition = new Vector3(300f, -100f, 0f);
             StartMovingObjects();
         }
-        else if(touchCount==18){
+        else if (touchCount == 18)
+        {
             note.SetActive(false);
             note2.SetActive(false);
             messageText.text = "Greate!";
         }
-        else if(touchCount==19){
+        else if (touchCount == 19)
+        {
             messageText.text = "Goodbye";
+        }
+        else if (touchCount == 20)
+        {
+            SceneManager.LoadScene("select");
+            Debug.Log("select");
         }
                 
     }

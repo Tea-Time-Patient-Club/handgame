@@ -5,10 +5,17 @@ using UnityEngine;
 using System.IO;
 using TMPro;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using Unity.Burst.Intrinsics;
 
 public class GameHandler : MonoBehaviour
 {
     //--------------------------------------------------------------
+    [Header("BackGround")]
+    public TextMeshProUGUI combo;
+    public TextMeshProUGUI songName;
+    public TextMeshProUGUI songCreater;
+    public Image songImage;
 
     [Header("Map")]
     public TextAsset MapFilePath;
@@ -38,6 +45,7 @@ public class GameHandler : MonoBehaviour
     private GameObject cursorTrailPrefab;
 
     const int SPAWN = -100;
+    private int miss = 0;
     public static double timer = 0;
     public static int ArduinoHit = 0;
 
@@ -125,6 +133,9 @@ public class GameHandler : MonoBehaviour
         MapFilePath = Resources.Load<TextAsset>($"{songFile}/Beatmap");
         MainMusic = Resources.Load<AudioClip>($"{songFile}/audio");
         BackgroundImage = Resources.Load<Sprite>($"{songFile}/BG");
+        songName.text = GlobalHandler.Instance?.SelectedSongTitle;
+        songCreater.text = GlobalHandler.Instance?.SelectedSongArtist;
+        songImage.sprite = Resources.Load<Sprite>($"{GlobalHandler.Instance?.SelectedSongFile}/Image");
 
         if (MapFilePath == null)
         {
@@ -533,6 +544,7 @@ public class GameHandler : MonoBehaviour
                         CircleList[index].SetActive(false);
                         ShowMissText();
                         GlobalHandler.Combo = 0;
+                        combo.text = GlobalHandler.Combo.ToString();
                         Debug.Log("Miss due to timeout!");
                     }
                     activeHitObjects.RemoveAt(i);
@@ -565,7 +577,7 @@ public class GameHandler : MonoBehaviour
         for (int i = activeHitObjects.Count - 1; i >= 0; i--)
         {
             HitObject hitObject = activeHitObjects[i];
-            if(ArduinoHit == 1)
+            if (ArduinoHit == 1)
             {
                 worldPosition = hitObject.Position;
             }
@@ -617,12 +629,17 @@ public class GameHandler : MonoBehaviour
         // Remove hit objects in reverse order to maintain correct indices
         for (int i = hitObjectIndicesToRemove.Count - 1; i >= 0; i--)
         {
-            activeHitObjects.RemoveAt(hitObjectIndicesToRemove[i]);
+            int indexToRemove = hitObjectIndicesToRemove[i];
+            if (indexToRemove >= 0 && indexToRemove < activeHitObjects.Count)
+            {
+                activeHitObjects.RemoveAt(indexToRemove);
+            }
         }
 
         GlobalHandler.ClickedCount++;
         ArduinoHit = 0; // Hit 처리 후 초기화
     }
+
 
 
     private IEnumerator ReadBLEDataAfterDelay(double delayTime)
@@ -693,8 +710,11 @@ public class GameHandler : MonoBehaviour
         circle.Got();
         circle.gameObject.SetActive(false);
         GlobalHandler.ClickedObject++;
-        GlobalHandler.SuccessfulHits++;
         GlobalHandler.Combo++;
+        if (circle.lastParameter >= 0 && circle.lastParameter < GlobalHandler.HitCounts.Length)
+        {
+            GlobalHandler.HitCounts[circle.lastParameter]++;
+        }
         if (GlobalHandler.Combo > GlobalHandler.MaxCombo)
         {
             GlobalHandler.MaxCombo = GlobalHandler.Combo;
@@ -702,36 +722,15 @@ public class GameHandler : MonoBehaviour
         ShowHitText();
     }
 
-    private void HandleEndCircleHit(Circle circle)
-    {
-        circle.Got();
-        GlobalHandler.ClickedObject++;
-        GlobalHandler.SuccessfulHits++;
-        GlobalHandler.Combo++;
-        if (GlobalHandler.Combo > GlobalHandler.MaxCombo)
-        {
-            GlobalHandler.MaxCombo = GlobalHandler.Combo;
-        }
-        ShowHitText();
-
-        SliderInfo? sliderInfo = sliderInfoList.Find(s => s.EndCircle == circle.gameObject);
-        if (sliderInfo.HasValue)
-        {
-            SliderInfo validSliderInfo = sliderInfo.Value;
-            if (validSliderInfo.EndCircle != null)
-            {
-                validSliderInfo.EndCircle.SetActive(false);
-                validSliderInfo.Ball.SetActive(false);
-                validSliderInfo.SliderRenderer.enabled = false;
-            }
-        }
-    }
     private void HandleStartCircleHit(Circle circle)
     {
         circle.Got();
         GlobalHandler.ClickedObject++;
-        GlobalHandler.SuccessfulHits++;
         GlobalHandler.Combo++;
+        if (circle.lastParameter >= 0 && circle.lastParameter < GlobalHandler.HitCounts.Length)
+        {
+            GlobalHandler.HitCounts[circle.lastParameter]++;
+        }
         if (GlobalHandler.Combo > GlobalHandler.MaxCombo)
         {
             GlobalHandler.MaxCombo = GlobalHandler.Combo;
@@ -747,6 +746,40 @@ public class GameHandler : MonoBehaviour
                 validSliderInfo.StartCircle.SetActive(false);
                 validSliderInfo.SliderRenderer.enabled = true;
                 validSliderInfo.Ball.SetActive(true);
+            }
+        }
+    }
+
+    private void HandleEndCircleHit(Circle circle)
+    {
+        Debug.Log($"Hit end circle with lastParameter: {circle.lastParameter}");
+        circle.Got();
+        GlobalHandler.ClickedObject++;
+        GlobalHandler.Combo++;
+        if (circle.lastParameter >= 0 && circle.lastParameter < GlobalHandler.HitCounts.Length)
+        {
+            GlobalHandler.HitCounts[circle.lastParameter]++;
+            Debug.Log($"Updated HitCounts[{circle.lastParameter}] = {GlobalHandler.HitCounts[circle.lastParameter]}");
+        }
+        else
+        {
+            Debug.LogWarning($"Invalid lastParameter: {circle.lastParameter}");
+        }
+        if (GlobalHandler.Combo > GlobalHandler.MaxCombo)
+        {
+            GlobalHandler.MaxCombo = GlobalHandler.Combo;
+        }
+        ShowHitText();
+
+        SliderInfo? sliderInfo = sliderInfoList.Find(s => s.EndCircle == circle.gameObject);
+        if (sliderInfo.HasValue)
+        {
+            SliderInfo validSliderInfo = sliderInfo.Value;
+            if (validSliderInfo.EndCircle != null)
+            {
+                validSliderInfo.EndCircle.SetActive(false);
+                validSliderInfo.Ball.SetActive(false);
+                validSliderInfo.SliderRenderer.enabled = false;
             }
         }
     }
@@ -775,12 +808,15 @@ public class GameHandler : MonoBehaviour
     private void ShowHitText()
     {
         hitText.gameObject.SetActive(true);
+        GlobalHandler.SuccessfulHits++;
+        combo.text = GlobalHandler.Combo.ToString();
         StartCoroutine(HideTextAfterDelay(hitText, 0.5f));
     }
 
     private void ShowMissText()
     {
         missText.gameObject.SetActive(true);
+        miss++;
         StartCoroutine(HideTextAfterDelay(missText, 0.5f));
     }
 
@@ -840,10 +876,12 @@ public class GameHandler : MonoBehaviour
     {
         Debug.Log("Game Over!");
 
+        GlobalHandler.SuccessfulHits = GlobalHandler.TotalNotes - miss;
+
         CircleList.Clear();
         hitObjects.Clear();
         ballInfoList.Clear();
-        activeHitObjects.Clear();
+        //activeHitObjects.Clear();
         sliderInfoList.Clear();
 
         SceneManager.LoadScene("endgame");

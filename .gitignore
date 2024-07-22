@@ -3,13 +3,12 @@
 /Assets/Plugins
 /Assets/image*
 /Assets/Skin
+/Assets/BGM
 /Assets/Shatalmic*
 /Assets/SimpleSpinner*
-/Assets/Resources/**/?eatmap.txt*
-/Assets/Resources/**/audio.mp3*
-/Assets/Resources/**/BG.jpg*
-/Assets/Resources/**/image.png*
-Assets/Resources/Picnic Party.meta
-Assets/Resources/Sample.meta
-Assets/Resources/Tutorial.meta
-Assets/Resources/Warm Up Groove.meta
+/Assets/Resources/GameData/**/?eatmap.txt*
+/Assets/Resources/GameData/**/audio.mp3*
+/Assets/Resources/GameData/**/**.wav*
+/Assets/Resources/GameData/**/BG.jpg*
+/Assets/Resources/GameData/**/image.png*
+
