@@ -16,6 +16,8 @@ Rehabilitation your hand with rhythm game with Tea-time Patient Club!
 - 3rd-party assets needed
     - Bluetooth LE module by Shatalmic LLC / $20 / Unity Asset Store
     - SimpleSpinner by Hippo / Free / Unity Asset Store
+    - Unity Burst compiler package / Free / Unity Registry
+    - Unity-UI-Rounded-Corners / Free / Git
 
 ## Notes
 
@@ -27,6 +29,6 @@ Rehabilitation your hand with rhythm game with Tea-time Patient Club!
 ## Credits
 
 - [**Donghyun Geum**](https://github.com/Geum1) *Leader, Game Development* Geum developed 'handgame' overall, including scripts and beat maps for each music.
-- **Minjeong Gwak** *Hardware Development* Gwak designed hardware for playing game with patients' hand, wrotes code for Arduino board. Project 'handgame' started from Gwak's idea.
+- [**Minjeong Gwak**](https://github.com/dotoooo22) *Hardware Development* Gwak designed hardware for playing game with patients' hand, wrotes code for Arduino board. Project 'handgame' started from Gwak's idea.
 - [**Kyungrae Kang**](https://github.com/kyngre) *Artificial Intelligence* Kang developed code for automatic selection of difficulty in each game based on linear regression. Also made illustrarions  and final presentation design.
 - [**Jungmin Yoon**](https://github.com/lego37yoon) *User Interface / Experience* Yoon designed user interface and adjust safe area of device. Wrote scenarios and also designed initial presentation.
