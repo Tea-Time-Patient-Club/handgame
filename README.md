@@ -23,6 +23,7 @@ Rehabilitation your hand with rhythm game with Tea-time Patient Club!
 
 - Exclusive, non open-source assets are excluded: would not work properly without assets.
 - Old commit log may contains exclusive, non open-source assets by mistake: be careful when you checkout or clone old version of our source code.
+- Commit messages are written by Jungmin Yoon, but code from this repostiory originally made by Donghyun Geum(All), Minjeong Gwak(Arduino - Unity data transfer), Jungmin Yoon(Scene Layout).
 
 > Project 'handgame' developed with support from Chungbuk National University, by ICCAS 2024 in United Kingdom program.
 
