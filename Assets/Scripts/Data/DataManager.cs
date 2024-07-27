@@ -23,12 +23,12 @@ public static class DataManager
         public List<SongData> songs = new List<SongData>();
     }
 
-    private const string DATA_FOLDER_NAME = "GameData";
-    private const string ALL_GAME_DATA_FILE = "AllGameData.json";
+    public const string DATA_FOLDER_NAME = "GameData";
+    public const string ALL_GAME_DATA_FILE = "AllGameData";
 
     // 모든 노래 데이터 파일 경로와 노래 데이터 파일 경로를 설정합니다.
-    private const string ALL_SONG_DATA_FILE = "ALLSongData";
-    private const string SONG_DATA_FILE = "SongData";
+    public const string ALL_SONG_DATA_FILE = "ALLSongData";
+    public const string SONG_DATA_FILE = "SongData";
 
     public static string GetDataPath(string fileName)
     {
@@ -55,7 +55,7 @@ public static class DataManager
             if (File.Exists(filePath))
             {
                 string json = File.ReadAllText(filePath);
-                gameDataList = JsonUtility.FromJson<GameDataList>(json);
+                gameDataList = JsonUtility.FromJson<GameDataList>(json) ?? new GameDataList();
             }
             else
             {

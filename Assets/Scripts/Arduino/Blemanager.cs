@@ -20,7 +20,8 @@ public class BLEManager : MonoBehaviour
     private bool isConnected = false; // 연결 상태를 추적하기 위한 변수
     private string connectedDeviceAddress; // 연결된 장치 주소
     private bool isScanning = false; // 스캔 상태를 추적하기 위한 변수
-    
+    private int lastParameter = 0;
+
     private void Awake()
     {
         if (Instance == null)
@@ -172,24 +173,21 @@ public class BLEManager : MonoBehaviour
                     if (bytes.Length > 0)
                     {
                         string rawData = BitConverter.ToString(bytes); // 바이트 배열을 문자열로 변환
-                        Debug.Log("Received data: " + rawData);
 
-                        //if (statusText != null)
-                        //{
-                            if(rawData.ToString().Contains("31"))
+                        // rawData를 '-'로 분리
+                        string[] dataArray = rawData.Split('-');
+
+                        // lastParameter를 인덱스로 사용하여 값 확인
+                        if (lastParameter >= 0 && lastParameter < dataArray.Length)
+                        {
+                            if (dataArray[lastParameter - 1] == "31")
+                            {
                                 GameHandler.ArduinoHit = 1;
-                            //statusText.text = rawData; // 수신된 데이터 표시
-                        //}
+                            }
+                        }
                     }
                 }
             );
-        }
-        else
-        {
-            //if (statusText != null)
-            //{
-            //    statusText.text = "Not connected to any device"; // 연결되지 않은 상태 메시지 설정
-            //}
         }
     }
 
@@ -213,8 +211,9 @@ public class BLEManager : MonoBehaviour
         }
     }
 
-    public void ReadDataFromDevice(TextMeshProUGUI statusText)
+    public void ReadDataFromDevice(TextMeshProUGUI statusText, int lastParameter)
     {
+        this.lastParameter = lastParameter;
         if (isConnected && !string.IsNullOrEmpty(connectedDeviceAddress))
         {
             if (statusText != null)

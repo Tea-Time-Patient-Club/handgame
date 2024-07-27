@@ -140,11 +140,11 @@ public class StateHandler : MonoBehaviour
     private string GenerateFeedback(float averageAlpha)
     {
         if (averageAlpha > 0) // 양수
-            return "fight";
+            return "Amazing Progress! Your hard work is paying off!";
         else if (averageAlpha < 0) // 음수
-            return "Good";
+            return "Great Improvement! Keep up the good work!";
         else
-            return "SoSo";
+            return "Steady Effort! You're on the right track!";
     }
 
     void LoadPlayData()

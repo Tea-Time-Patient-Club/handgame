@@ -154,6 +154,8 @@ public class GameHandler : MonoBehaviour
     }
     private void Start()
     {
+        ResetGame(); // 새 게임 시작 시 모든 상태 초기화
+
         string selectedSongFile = GlobalHandler.Instance?.SelectedSongFile;
         startTime = Time.time;
 
@@ -271,10 +273,6 @@ public class GameHandler : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// ////////////
-    /// </summary>
-    /// <param name="hitObjectLines"></param>
     void ProcessHitObjectGroup(List<string> hitObjectLines)
     {
         foreach (string line in hitObjectLines)
@@ -414,7 +412,6 @@ public class GameHandler : MonoBehaviour
         for (int i = sliderInfoList.Count - 1; i >= 0; i--)
         {
             SliderInfo sliderInfo = sliderInfoList[i];
-
             if (sliderInfo.StartCircle == null || sliderInfo.SliderRenderer == null || sliderInfo.EndCircle == null || sliderInfo.Ball == null)
             {
                 sliderInfoList.RemoveAt(i);
@@ -425,22 +422,33 @@ public class GameHandler : MonoBehaviour
             if (timer >= sliderInfo.BeatTime - GlobalHandler.ApprRate && !sliderInfo.StartCircle.activeSelf)
             {
                 sliderInfo.StartCircle.SetActive(true);
+                // 시작점에 대한 BLE 데이터 읽기
+                StartCoroutine(ReadBLEDataAfterDelay(0.5f, sliderInfo.LastParameter));
             }
 
             // 슬라이더 라인 및 공 활성화
             if (timer >= sliderInfo.BeatTime && !sliderInfo.SliderRenderer.enabled)
             {
-                // 슬라이더가 활성화된 후 0.5초 뒤에 BLE 데이터를 읽는 코루틴 시작
-                StartCoroutine(ReadBLEDataAfterDelay(0.5f));
                 sliderInfo.SliderRenderer.enabled = true;
                 sliderInfo.Ball.SetActive(true);
+            }
 
+            // 슬라이더 활성화 중 지속적인 BLE 데이터 확인
+            if (timer >= sliderInfo.BeatTime && timer < sliderInfo.EndTime)
+            {
+                // 주기적으로 BLE 데이터 읽기 (예: 100ms마다)
+                if (Mathf.FloorToInt((float)timer * 10) % 10 == 0)
+                {
+                    StartCoroutine(ReadBLEDataAfterDelay(0.1f, sliderInfo.LastParameter));
+                }
             }
 
             // 종료 원 활성화
             if (timer >= sliderInfo.EndTime - GlobalHandler.ApprRate && !sliderInfo.EndCircle.activeSelf)
             {
                 sliderInfo.EndCircle.SetActive(true);
+                // 종료점에 대한 BLE 데이터 읽기
+                StartCoroutine(ReadBLEDataAfterDelay(0.5f, sliderInfo.LastParameter));
             }
 
             // 슬라이더 진행 중 Ball 위치 업데이트
@@ -451,19 +459,24 @@ public class GameHandler : MonoBehaviour
             // 슬라이더 종료 처리
             if (timer > sliderInfo.EndTime + GlobalHandler.HitWindow)
             {
-                sliderInfo.Ball.SetActive(false);
-                sliderInfo.SliderRenderer.enabled = false;
-
+                // CircleList에서 제거
                 if (CircleList.Contains(sliderInfo.StartCircle)) CircleList.Remove(sliderInfo.StartCircle);
                 if (CircleList.Contains(sliderInfo.SliderObject)) CircleList.Remove(sliderInfo.SliderObject);
                 if (CircleList.Contains(sliderInfo.EndCircle)) CircleList.Remove(sliderInfo.EndCircle);
 
+                // 오브젝트 삭제
                 Destroy(sliderInfo.StartCircle);
                 Destroy(sliderInfo.SliderObject);
                 Destroy(sliderInfo.EndCircle);
                 Destroy(sliderInfo.Ball);
 
                 sliderInfoList.RemoveAt(i);
+
+                // Miss 처리
+                ShowMissText();
+                GlobalHandler.Combo = 0;
+                combo.text = GlobalHandler.Combo.ToString();
+                Debug.Log("Slider missed!");
             }
         }
     }
@@ -498,27 +511,34 @@ public class GameHandler : MonoBehaviour
     {
         while (true)
         {
-            timer = (Music.time * 1000);
-            UpdateSliders();
-
-            if (GlobalHandler.ObjCount < CircleList.Count)
+            try
             {
-                GameObject currentObject = CircleList[GlobalHandler.ObjCount];
-                if (currentObject != null)
+                timer = (Music.time * 1000);
+                UpdateSliders();
+
+                if (GlobalHandler.ObjCount < CircleList.Count)
                 {
-                    Circle currentCircle = currentObject.GetComponent<Circle>();
-
-                    if (currentCircle != null)
+                    GameObject currentObject = CircleList[GlobalHandler.ObjCount];
+                    if (currentObject != null)
                     {
-                        GlobalHandler.DelayPos = currentCircle.PosA;
+                        Circle currentCircle = currentObject.GetComponent<Circle>();
 
-                        if (timer >= GlobalHandler.DelayPos)
+                        if (currentCircle != null)
                         {
-                            currentCircle.Spawn();
+                            GlobalHandler.DelayPos = currentCircle.PosA;
 
-                            StartCoroutine(ReadBLEDataAfterDelay(0.5f));
+                            if (timer >= GlobalHandler.DelayPos)
+                            {
+                                currentCircle.Spawn();
 
-                            activeHitObjects.Add(new HitObject(currentCircle.transform.position, GlobalHandler.DelayPos, GlobalHandler.DelayPos + GlobalHandler.ApprRate));
+                                StartCoroutine(ReadBLEDataAfterDelay(0.5f, currentCircle.lastParameter));
+
+                                activeHitObjects.Add(new HitObject(currentCircle.transform.position, GlobalHandler.DelayPos, GlobalHandler.DelayPos + GlobalHandler.ApprRate));
+                                GlobalHandler.ObjCount++;
+                            }
+                        }
+                        else
+                        {
                             GlobalHandler.ObjCount++;
                         }
                     }
@@ -527,41 +547,43 @@ public class GameHandler : MonoBehaviour
                         GlobalHandler.ObjCount++;
                     }
                 }
-                else
-                {
-                    GlobalHandler.ObjCount++;
-                }
-            }
 
-            for (int i = activeHitObjects.Count - 1; i >= 0; i--)
-            {
-                HitObject hitObject = activeHitObjects[i];
-                if (timer > hitObject.BeatTime + GlobalHandler.HitWindow)
+                for (int i = activeHitObjects.Count - 1; i >= 0; i--)
                 {
-                    int index = GlobalHandler.ObjCount - activeHitObjects.Count + i;
-                    if (index >= 0 && index < CircleList.Count && CircleList[index] != null)
+                    HitObject hitObject = activeHitObjects[i];
+                    if (timer > hitObject.BeatTime + GlobalHandler.HitWindow)
                     {
-                        CircleList[index].SetActive(false);
-                        ShowMissText();
-                        GlobalHandler.Combo = 0;
-                        combo.text = GlobalHandler.Combo.ToString();
-                        Debug.Log("Miss due to timeout!");
+                        int index = GlobalHandler.ObjCount - activeHitObjects.Count + i;
+                        if (index >= 0 && index < CircleList.Count && CircleList[index] != null)
+                        {
+                            CircleList[index].SetActive(false);
+                            ShowMissText();
+                            GlobalHandler.Combo = 0;
+                            combo.text = GlobalHandler.Combo.ToString();
+                            Debug.Log("Miss due to timeout!");
+                        }
+                        activeHitObjects.RemoveAt(i);
                     }
-                    activeHitObjects.RemoveAt(i);
+                }
+
+                HandleInput();
+                UpdateBallPositions();
+
+                if (Music != null && Music.clip != null && !Music.isPlaying && Music.time >= Music.clip.length - 0.1f)
+                {
+                    EndGame();
+                    yield break;  // 게임이 끝나면 루틴을 종료합니다.
                 }
             }
-
-            HandleInput();
-            UpdateBallPositions();
-
-            if (Music != null && Music.clip != null && !Music.isPlaying && Music.time >= Music.clip.length - 0.1f)
+            catch (Exception ex)
             {
-                EndGame();
+                Debug.LogError($"Error in UpdateRoutine: {ex.Message}");
             }
 
             yield return null;
         }
     }
+
     private void PerformCollisionDetection(Vector2 position)
     {
         if (MainCamera == null)
@@ -619,6 +641,7 @@ public class GameHandler : MonoBehaviour
                                     HandleCircleHit(circleComponent);
                                 }
                                 hitObjectIndicesToRemove.Add(i);
+                                break; // 하나의 히트 객체만 처리하고 루프를 종료
                             }
                         }
                     }
@@ -641,19 +664,18 @@ public class GameHandler : MonoBehaviour
     }
 
 
-
-    private IEnumerator ReadBLEDataAfterDelay(double delayTime)
+    private IEnumerator ReadBLEDataAfterDelay(double delayTime, int lastParameter)
     {
         double startTime = Time.time * 1000;
         double endTime = startTime + delayTime;
         TextMeshProUGUI statusText = null;
-        
+
         while ((Time.time * 1000) < endTime)
         {
             // BLE 데이터 읽기
             if (BLEManager.Instance != null)
             {
-                BLEManager.Instance.ReadDataFromDevice(statusText);
+                BLEManager.Instance.ReadDataFromDevice(statusText, lastParameter);
                 yield return new WaitForSeconds(1f);
                 PerformCollisionDetection(new Vector2(0, 0)); // Hit 판정 수행
             }
@@ -709,6 +731,7 @@ public class GameHandler : MonoBehaviour
     {
         circle.Got();
         circle.gameObject.SetActive(false);
+        circle.gameObject.transform.position = new Vector3(-101,-101, 0);
         GlobalHandler.ClickedObject++;
         GlobalHandler.Combo++;
         if (circle.lastParameter >= 0 && circle.lastParameter < GlobalHandler.HitCounts.Length)
@@ -736,6 +759,7 @@ public class GameHandler : MonoBehaviour
             GlobalHandler.MaxCombo = GlobalHandler.Combo;
         }
         ShowHitText();
+        Debug.Log($"Hit start circle with lastParameter: {circle.lastParameter}");
 
         SliderInfo? sliderInfo = sliderInfoList.Find(s => s.StartCircle == circle.gameObject);
         if (sliderInfo.HasValue)
@@ -777,14 +801,20 @@ public class GameHandler : MonoBehaviour
             SliderInfo validSliderInfo = sliderInfo.Value;
             if (validSliderInfo.EndCircle != null)
             {
-                validSliderInfo.EndCircle.SetActive(false);
-                validSliderInfo.Ball.SetActive(false);
-                validSliderInfo.SliderRenderer.enabled = false;
+                // CircleList에서 제거
+                if (CircleList.Contains(validSliderInfo.EndCircle))
+                    CircleList.Remove(validSliderInfo.EndCircle);
+
+                // 오브젝트 삭제
+                Destroy(validSliderInfo.EndCircle);
+                Destroy(validSliderInfo.Ball);
+                Destroy(validSliderInfo.SliderObject);
+
+                // 슬라이더 정보 제거
+                sliderInfoList.Remove(validSliderInfo);
             }
         }
     }
-
-
     private void UpdateBallPositions()
     {
         for (int i = ballInfoList.Count - 1; i >= 0; i--)
@@ -871,19 +901,100 @@ public class GameHandler : MonoBehaviour
             cursorTrailInstances.Remove(fingerId);
         }
     }
-
-    void EndGame()
+    public void ResetGame()
     {
-        Debug.Log("Game Over!");
-
-        GlobalHandler.SuccessfulHits = GlobalHandler.TotalNotes - miss;
-
+        // 리스트 초기화
         CircleList.Clear();
         hitObjects.Clear();
         ballInfoList.Clear();
-        //activeHitObjects.Clear();
+        activeHitObjects.Clear();
         sliderInfoList.Clear();
 
-        SceneManager.LoadScene("endgame");
+        // 변수 초기화
+        miss = 0;
+        timer = 0;
+        ArduinoHit = 0;
+        startTime = Time.time;
+
+        // GlobalHandler 변수 초기화
+        GlobalHandler.ObjCount = 0;
+        GlobalHandler.DelayPos = 0;
+        GlobalHandler.TotalNotes = 0;
+        GlobalHandler.ClickedObject = 0;
+        GlobalHandler.ClickedCount = 0;
+        GlobalHandler.SuccessfulHits = 0;
+        GlobalHandler.Combo = 0;
+        GlobalHandler.MaxCombo = 0;
+        for (int i = 0; i < GlobalHandler.HitCounts.Length; i++)
+        {
+            GlobalHandler.HitCounts[i] = 0;
+        }
+
+        // UI 초기화
+        if (combo != null) combo.text = "0";
+        if (hitText != null) hitText.gameObject.SetActive(false);
+        if (missText != null) missText.gameObject.SetActive(false);
+
+        // 오디오 초기화
+        if (Music != null)
+        {
+            Music.Stop();
+            Music.time = 0;
+        }
+
+        // 커서 트레일 제거
+        foreach (var trail in cursorTrailInstances.Values)
+        {
+            if (trail != null) Destroy(trail);
+        }
+        cursorTrailInstances.Clear();
+
+        // 기존에 생성된 Circle, Slider 등의 게임 오브젝트 제거
+        foreach (var obj in CircleList)
+        {
+            if (obj != null) Destroy(obj);
+        }
+
+        // 카메라 위치 초기화 (필요한 경우)
+        if (MainCamera != null)
+        {
+            MainCamera.transform.position = new Vector3(0, 0, -10); // 기본 위치로 설정
+        }
+    }
+
+    void EndGame()
+    {
+        try
+        {
+            Debug.Log("Game Over! Switching to endgame scene.");
+
+            GlobalHandler.SuccessfulHits = GlobalHandler.TotalNotes - miss;
+
+            // 모든 코루틴 중지
+            StopAllCoroutines();
+
+            // 모든 Circle 오브젝트 비활성화
+            foreach (GameObject circle in CircleList)
+            {
+                if (circle != null)
+                {
+                    circle.SetActive(false);
+                    Destroy(circle);
+                }
+            }
+
+            // 리스트 초기화
+            CircleList.Clear();
+            hitObjects.Clear();
+            ballInfoList.Clear();
+            activeHitObjects.Clear();
+            sliderInfoList.Clear();
+
+            SceneManager.LoadScene("endgame");
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError($"Error in EndGame: {ex.Message}");
+        }
     }
 }

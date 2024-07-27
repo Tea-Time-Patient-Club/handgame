@@ -63,7 +63,7 @@ public class MainSceneController : MonoBehaviour
 
     public void OnReadDataButtonClick()
     {
-        BLEManager.Instance.ReadDataFromDevice(statusText); // 데이터 읽기 시작
+        BLEManager.Instance.ReadDataFromDevice(statusText,9); // 데이터 읽기 시작
         if (spinner)
         {
             spinner.Rotation = true;

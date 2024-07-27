@@ -72,9 +72,13 @@ public class EndGameHandler : MonoBehaviour
     {
         pointSlider.interactable = false;
         UpdateEndGameUI();
-        filePath = Path.Combine(Application.persistentDataPath, GAME_DATA_FILE);
+        DataSave(); // 게임 종료 시 데이터 저장
+        filePath = DataManager.GetDataPath(DataManager.ALL_GAME_DATA_FILE);
     }
-
+    private void OnDisable()
+    {
+        DataSave(); // 씬이 비활성화될 때 데이터 저장
+    }
     private void DataSave()
     {
         if (GlobalHandler.Instance != null)
@@ -100,6 +104,7 @@ public class EndGameHandler : MonoBehaviour
             };
 
             DataManager.SaveGameData(gameData);
+            Debug.Log("Game data saved successfully.");
         }
         else
         {

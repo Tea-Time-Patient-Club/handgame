@@ -9,6 +9,8 @@ public class Circle : MonoBehaviour
     private float PosY = 0;
     private float PosZ = 0;
 
+    public bool IsHit { get; set; }  // 추가된 플래그
+
     [HideInInspector]
     public int PosA = 0;
 
@@ -61,19 +63,19 @@ public class Circle : MonoBehaviour
                 switch (number)
                 {
                     case 1:
-                        numberText.text = "THU"; // Thumb
+                        numberText.text = "Thu"; // Thumb
                         break;
                     case 2:
-                        numberText.text = "IND"; // Index
+                        numberText.text = "Ind"; // Index
                         break;
                     case 3:
-                        numberText.text = "MID"; // Middle
+                        numberText.text = "Mid"; // Middle
                         break;
                     case 4:
-                        numberText.text = "RIN"; // Ring
+                        numberText.text = "Rin"; // Ring
                         break;
                     case 5:
-                        numberText.text = "PIN"; // Pinky
+                        numberText.text = "Pin"; // Pinky
                         break;
                 }
             }
@@ -82,19 +84,19 @@ public class Circle : MonoBehaviour
                 switch (number)
                 {
                     case 1:
-                        numberText.text = "PIN"; // Pinky
+                        numberText.text = "Pin"; // Pinky
                         break;
                     case 2:
-                        numberText.text = "RIN"; // Ring
+                        numberText.text = "Rin"; // Ring
                         break;
                     case 3:
-                        numberText.text = "MID"; // Middle
+                        numberText.text = "Mid"; // Middle
                         break;
                     case 4:
-                        numberText.text = "IND"; // Index
+                        numberText.text = "Ind"; // Index
                         break;
                     case 5:
-                        numberText.text = "THU"; // Thumb
+                        numberText.text = "Thu"; // Thumb
                         break;
                 }
             }
@@ -125,22 +127,76 @@ public class Circle : MonoBehaviour
         if (!RemoveNow)
         {
             GotIt = true;
-            MainApproach.transform.position = new Vector2(-101, -101);
-            GameHandler.pSounds.PlayOneShot(GameHandler.pHitSound);
+            IsHit = true;  // 히트될 때 IsHit 플래그 설정
+            if (MainApproach != null)
+            {
+                MainApproach.transform.position = new Vector2(-101, -101);
+            }
+            if (GameHandler.pSounds != null && GameHandler.pHitSound != null)
+            {
+                GameHandler.pSounds.PlayOneShot(GameHandler.pHitSound);
+            }
             RemoveNow = false;
-            this.enabled = true;
-            StartCoroutine(RemoveCircleAfterDelay(GlobalHandler.HitWindow)); // 0.5초 후 제거
+            StartCoroutine(GotCoroutine(GlobalHandler.HitWindow));
+            StartCoroutine(DisableAfterDelay(10f)); // 1초 후에 비활성화
             return true;
         }
         return false;
     }
+    private IEnumerator DisableAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        this.enabled = false;
+    }
 
     private IEnumerator RemoveCircleAfterDelay(float delay)
     {
-        yield return new WaitForSeconds(delay);
-        gameObject.transform.position = new Vector2(-101, -101);
-        this.enabled = false;
+        if (delay < 0)
+        {
+            Debug.LogWarning("Negative delay detected. Using default delay of 0.5 seconds.");
+            delay = 0.5f;
+        }
+
+        // 1초 동안 대기
+        yield return new WaitForSeconds(10.0f);
+
+        if (this != null && gameObject != null)
+        {
+            gameObject.transform.position = new Vector2(-101, -101);
+            this.enabled = false;
+        }
     }
+
+
+    private IEnumerator GotCoroutine(float delay)
+    {
+        // 애니메이션 또는 시각적 효과 추가 (예: 크기 변경 애니메이션)
+        Vector3 originalScale = transform.localScale;
+        Vector3 targetScale = originalScale * 1.2f; // 크기를 20% 증가
+
+        float duration = 0.2f; // 애니메이션 지속 시간
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            transform.localScale = Vector3.Lerp(originalScale, targetScale, elapsed / duration);
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        // 원래 크기로 되돌리기
+        transform.localScale = originalScale;
+
+        // 1초 동안 대기
+        yield return new WaitForSeconds(10.0f);
+
+        if (this != null && gameObject != null)
+        {
+            gameObject.transform.position = new Vector2(-101, -101);
+            this.enabled = false;
+        }
+    }
+
 
     // Check if circle wasn't clicked
     protected IEnumerator Checker() // 접근 제어자를 protected로 변경
